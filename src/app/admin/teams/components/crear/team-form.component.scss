@@ -1,0 +1,15 @@
+.container {
+  form {
+    width: 600px;
+    max-width: 100%;
+
+    p-button {
+      width: 100%;
+      display: block;
+
+      ::ng-deep button {
+        width: 100%;
+      }
+    }
+  }
+}

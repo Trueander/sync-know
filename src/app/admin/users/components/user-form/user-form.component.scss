@@ -1,0 +1,29 @@
+.container {
+  form {
+    width: 800px;
+
+
+    .form-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    p-button {
+      width: 100%;
+      display: block;
+
+      ::ng-deep button {
+        width: 100%;
+      }
+    }
+
+    p-dropdown {
+      width: 100%;
+      display: block;
+
+      ::ng-deep .p-dropdown {
+        width: 100%
+      }
+    }
+  }
+}

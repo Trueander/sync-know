@@ -1,1 +1,399 @@
-/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+@layer reset, primeng;
+
+/* Reset CSS */
+@layer reset {
+  button {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+html, body {
+  min-height: 100vh;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #F2F2F2;
+  margin-right: 20px;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background-color: #c1c1c1;
+}
+
+.font-size-xs {
+  font-size: 10px;
+}
+
+.font-size-sm {
+  font-size: 12px;
+}
+
+.font-size-m {
+  font-size: 14px;
+}
+
+.font-size-lg {
+  font-size: 16px;
+}
+
+.font-size-xl {
+  font-size: 18px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.float-right {
+  float: right;
+}
+
+.m-right-0 {
+  margin-right: 0;
+}
+
+.m-right-5 {
+  margin-right: 5px;
+}
+
+.m-right-10 {
+  margin-right: 10px;
+}
+
+.m-right-15 {
+  margin-right: 15px;
+}
+
+.m-right-20 {
+  margin-right: 20px;
+}
+
+.m-right-25 {
+  margin-right: 25px;
+}
+
+.m-left-0 {
+  margin-left: 0;
+}
+
+.m-left-5 {
+  margin-left: 5px;
+}
+
+.m-left-10 {
+  margin-left: 10px;
+}
+
+.m-left-15 {
+  margin-left: 15px;
+}
+
+.m-left-20 {
+  margin-left: 20px;
+}
+
+.m-left-25 {
+  margin-left: 25px;
+}
+
+.m-top-0 {
+  margin-top: 0px;
+}
+
+.m-top-5 {
+  margin-top: 5px;
+}
+
+.m-top-10 {
+  margin-top: 10px;
+}
+
+.m-top-15 {
+  margin-top: 15px;
+}
+
+.m-top-20 {
+  margin-top: 20px;
+}
+
+.m-top-0 {
+  margin-top: 0;
+}
+
+.m-top-25 {
+  margin-top: 25px;
+}
+
+.m-bottom-0 {
+  margin-bottom: 0;
+}
+
+.m-bottom-5 {
+  margin-bottom: 5px;
+}
+
+.m-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.m-bottom-15 {
+  margin-bottom: 15px;
+}
+
+.m-bottom-20 {
+  margin-bottom: 20px;
+}
+
+.m-bottom-25 {
+  margin-bottom: 25px;
+}
+
+.p-right-0 {
+  padding-right: 0;
+}
+
+.p-right-5 {
+  padding-right: 5px;
+}
+
+.p-right-10 {
+  padding-right: 10px;
+}
+
+.p-right-15 {
+  padding-right: 15px;
+}
+
+.p-right-20 {
+  padding-right: 20px;
+}
+
+.p-right-25 {
+  padding-right: 25px;
+}
+
+.p-left-0 {
+  padding-left: 0;
+}
+
+.p-left-5 {
+  padding-left: 5px;
+}
+
+.p-left-10 {
+  padding-left: 10px;
+}
+
+.p-left-15 {
+  padding-left: 15px;
+}
+
+.p-left-20 {
+  padding-left: 20px;
+}
+
+.p-left-25 {
+  padding-left: 25px;
+}
+
+.p-top-0 {
+  padding-top: 0;
+}
+
+.p-top-5 {
+  padding-top: 5px;
+}
+
+.p-top-10 {
+  padding-top: 10px;
+}
+
+.p-top-15 {
+  padding-top: 15px;
+}
+
+.p-top-20 {
+  padding-top: 20px;
+}
+
+.p-top-25 {
+  padding-top: 25px;
+}
+
+.p-bottom-0 {
+  padding-bottom: 5px;
+}
+
+.p-bottom-5 {
+  padding-bottom: 5px;
+}
+
+.p-bottom-10 {
+  padding-bottom: 10px;
+}
+
+.p-bottom-15 {
+  padding-bottom: 15px;
+}
+
+.p-bottom-20 {
+  padding-bottom: 20px;
+}
+
+.p-bottom-25 {
+  padding-bottom: 25px;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.p-5 {
+  padding: 5px;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+
+.p-20 {
+  padding: 20px;
+}
+
+.p-25 {
+  padding: 25px;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.m-5 {
+  margin: 5px;
+}
+
+.m-10 {
+  margin: 10px;
+}
+
+.m-15 {
+  margin: 15px;
+}
+
+.m-20 {
+  margin: 20px;
+}
+
+.m-25 {
+  margin: 25px;
+}
+
+.my-0 { margin-top: 0; margin-bottom: 0  }
+.my-5 { margin-top: 5px; margin-bottom: 5px  }
+.my-10 { margin-top: 10px; margin-bottom: 10px  }
+.my-15 { margin-top: 15px; margin-bottom: 15px  }
+.my-20 { margin-top: 20px; margin-bottom: 20px  }
+.my-25 { margin-top: 25px; margin-bottom: 25px  }
+.py-0 { padding-top: 0; padding-bottom: 0  }
+.py-5 { padding-top: 5px; padding-bottom: 5px  }
+.py-10 { padding-top: 10px; padding-bottom: 10px  }
+.py-15 { padding-top: 15px; padding-bottom: 15px  }
+.py-20 { padding-top: 20px; padding-bottom: 20px  }
+.py-25 { padding-top: 25px; padding-bottom: 25px  }
+.px-5 { padding-left: 5px; padding-right: 5px  }
+.px-10 { padding-left: 10px; padding-right: 10px  }
+.px-15 { padding-left: 15px; padding-right: 15px  }
+.px-20 { padding-left: 20px; padding-right: 20px  }
+.px-25 { padding-left: 25px; padding-right: 25px  }
+
+.d-flex { display: flex; }
+.flex-column { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-nowrap { flex-wrap: nowrap; }
+.flex-wrap { flex-wrap: wrap; }
+.justify-content-space-btw { justify-content: space-between; }
+.justify-content-flex-end { justify-content: flex-end; }
+.align-items-center { align-items: center; }
+.flex-wrap-wrap { flex-wrap: wrap }
+.align-items-end {align-items: flex-end}
+.align-content-center { align-content: center; }
+.place-items-end { place-items: flex-end }
+
+/*gap-flex*/
+.gap-5 { gap: 5px}
+.gap-10 { gap: 10px}
+.gap-15 { gap: 15px}
+.gap-20 { gap: 20px}
+.gap-25 { gap: 25px}
+.gap-30 { gap: 30px}
+
+.row-gap-5 { row-gap: 5px}
+.row-gap-10 { row-gap: 10px}
+.row-gap-15 { row-gap: 15px}
+.row-gap-20 { row-gap: 20px}
+.row-gap-25 { row-gap: 25px}
+.row-gap-30 { row-gap: 30px}
+
+.col-gap-5 { column-gap: 5px}
+.col-gap-10 { column-gap: 10px}
+.col-gap-15 { column-gap: 15px}
+.col-gap-20 { column-gap: 20px}
+.col-gap-25 { column-gap: 25px}
+.col-gap-30 { column-gap: 30px}
+
+.font-w-400 { font-weight: 400; }
+.font-w-500 { font-weight: 500; }
+.font-w-600 { font-weight: 600; }
+.font-w-700 { font-weight: 700; }
+
+.title-sm {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.title-m {
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+.title-lg {
+  font-size: 1.9rem;
+  font-weight: 500;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.ng-touched.ng-invalid {
+  border-color: #f87171;
+}
+
+.w-100 {
+  width: 100%;
+}

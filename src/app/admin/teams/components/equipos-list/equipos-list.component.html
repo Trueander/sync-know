@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="d-flex col-gap-10 align-items-center m-bottom-10">
+    <h2 class="my-0">Equipos</h2>
+    <p-button label="Registrar" icon="pi pi-plus" iconPos="right" size="small" [routerLink]="'crear'"/>
+  </div>
+  <div class="w-100">
+    <p-table [value]="teams"
+             [paginator]="true"
+             [rows]="5"
+             [totalRecords]="totalRecords"
+             [rowsPerPageOptions]="[5,10,20]"
+             [lazy]="true" (onLazyLoad)="searchTeams($event)">
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <p-iconField iconPosition="left">
+            <p-inputIcon>
+              <i class="pi pi-search"></i>
+            </p-inputIcon>
+            <input
+              pInputText
+              [formControl]="searchFormControl"
+              type="text"
+              placeholder="Buscar equipo" />
+          </p-iconField>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-team>
+        <tr>
+          <td>{{ team.id }}</td>
+          <td>{{ team.name }}</td>
+          <td class="d-flex">
+            <p-button icon="pi pi-pen-to-square" [rounded]="true" [text]="true" severity="primary" [routerLink]="['actualizar', team.id]" />
+            <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (click)="deleteTeam(team.id)" />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

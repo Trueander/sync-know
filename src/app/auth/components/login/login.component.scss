@@ -1,0 +1,20 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  form {
+    width: 400px;
+
+    p-button {
+      width: 100%;
+      display: block;
+
+      ::ng-deep button {
+        width: 100%;
+      }
+    }
+  }
+}

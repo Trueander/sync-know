@@ -1,0 +1,23 @@
+<div class="container">
+  <p-toast />
+  <form [formGroup]="form" novalidate (ngSubmit)="teamId ? updateDate() :  createTeam()">
+    <p-card [header]="title">
+      <div class="form-container d-flex flex-column gap-10">
+        <div class="d-flex flex-column gap-5">
+          <label for="name">Nombre</label>
+          <input id="name" formControlName="name" type="text" pInputText/>
+        </div>
+        <div class="d-flex align-items-center gap-5" *ngIf="!teamId">
+          <p-checkbox id="addMore"
+                      label="Seguir creando"
+                      [formControl]="addMoreForm"
+                      binary="true"/>
+        </div>
+        <div class="d-flex flex-column gap-5">
+          <p-button type="submit" [label]="teamId ? 'Actualizar equipo' : 'Guardar equipo'"/>
+          <p-button severity="secondary" [routerLink]="'/admin/equipos'" label="Cancelar"/>
+        </div>
+      </div>
+    </p-card>
+  </form>
+</div>
