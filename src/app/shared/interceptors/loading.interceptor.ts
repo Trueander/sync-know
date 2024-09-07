@@ -1,5 +1,5 @@
 import {HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest} from "@angular/common/http";
-import {finalize, Observable, switchMap} from "rxjs";
+import {finalize, Observable} from "rxjs";
 import {inject} from "@angular/core";
 import {SpinnerService} from "../services/spinner.service";
 

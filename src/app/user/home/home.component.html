@@ -1,0 +1,38 @@
+<div class="home-user">
+
+  <div class="card">
+    <p-toolbar>
+      <div class="p-toolbar-group-start d-flex gap-25">
+        <img class="logo" src="./assets/logo.png" alt="logo">
+        <p-button label="Crear contenido" size="small" (click)="goToForm()"></p-button>
+      </div>
+      <div class="p-toolbar-group-center">
+
+      </div>
+      <div class="p-toolbar-group-end gap-15">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input class="input-search" pInputText placeholder="Buscar" />
+        </span>
+        <i class="pi pi-bell font-size-xl cursor-pointer" pBadge value="9"></i>
+        <p-avatar
+          shape="circle"
+          class="cursor-pointer" (click)="menu.toggle($event)">
+          <span class="font-w-700 p-text-secondary">{{userAcronyms}}</span>
+        </p-avatar>
+        <p-menu #menu [model]="items" [popup]="true" />
+      </div>
+    </p-toolbar>
+  </div>
+  <div class="main-wrapper">
+    <div class="navigation">
+      <h4 class="p-text-secondary m-left-10 m-bottom-5">Navegación</h4>
+      <p-divider styleClass="my-10"/>
+      <p-tree [value]="treeData" selectionMode="single" (onNodeSelect)="nodeSelect($event, nodoElement)" #nodoElement />
+    </div>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>

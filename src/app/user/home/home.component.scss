@@ -1,0 +1,78 @@
+.home-user {
+  .card {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  }
+
+  .spinner {
+    position: absolute;
+    left: 0;
+    right:0;
+  }
+
+  .logo {
+    width: 240px;
+    margin-right: 20px;
+  }
+
+  ::ng-deep p-toolbar .p-toolbar {
+    padding: 10px 20px;
+    border-radius: 0;
+  }
+
+  .input-search {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 20px;
+  }
+
+  .main-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    .content {
+      margin-top: 55px;
+      padding: 20px 40px;
+      overflow: auto;
+      width: calc(100% - 300px);
+
+
+      quill-editor {
+        width: 100%;
+      }
+    }
+  }
+
+  .navigation {
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.04);
+    padding: 10px;
+    overflow: auto;
+    position: fixed;
+    top: 55px;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+
+
+    ::ng-deep p-tree {
+      .p-tree {
+        border: 0;
+        padding: 0;
+        border-radius: 0;
+        min-width: 200px;
+        max-width: 400px;
+        background: inherit;
+      }
+
+      .p-ripple {
+        margin-right: 0;
+      }
+
+      .p-treenode-content {
+        padding: 0;
+      }
+    }
+  }
+}
