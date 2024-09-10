@@ -10,10 +10,10 @@ import {BadgeModule} from "primeng/badge";
 import {DividerModule} from "primeng/divider";
 import {QuillConfigModule} from "./quill-config";
 import {ReactiveFormsModule} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {AsyncPipe, NgClass, NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {Ripple} from "primeng/ripple";
-import {Observable, switchMap, tap} from "rxjs";
+import {map, Observable, switchMap, tap} from "rxjs";
 import {ContentService} from "../content/services/content.service";
 import {ProgressBarModule} from "primeng/progressbar";
 import {TokenService} from "../../auth/service/token.service";
@@ -48,16 +48,16 @@ import {ContentTree} from "../content/models/content-tree";
 export class HomeComponent implements OnInit{
   items: MenuItem[] | undefined;
   userAcronyms: string = 'U';
-  treeData: any;
+  treeData: ContentTree[] = [];
   resourceId!: number | undefined;
-  previousNode: any;
+  previousNode!: ContentTree;
   constructor(private contenidoService: ContentService,
               private router: Router,
               private tokenService: TokenService,
               private syncContentService: ContentSyncService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const url = this.router.url;
     const index = url.indexOf('/contenido/');
     if (index !== -1) {
@@ -88,9 +88,12 @@ export class HomeComponent implements OnInit{
 
   private getContent$(): Observable<ContentTree[]>{
     return this.contenidoService.getContenidosTree()
-      .pipe(tap((response) => {
+      .pipe(
+        map(this.addParentToChildren),
+        tap((response) => {
+        this.markActiveNode(response);
         this.treeData = response;
-        this.markActiveNode(this.treeData);
+        console.log(this.treeData)
       }));
   }
 
@@ -105,7 +108,7 @@ export class HomeComponent implements OnInit{
     }
   }
 
-  markActiveNode(treeData: any): void {
+  markActiveNode(treeData: ContentTree[]): void {
     if(this.resourceId) {
       this.nodos(treeData);
     }
@@ -115,28 +118,47 @@ export class HomeComponent implements OnInit{
     this.router.navigate(['contenido']);
   }
 
-  nodos(treeData: any) {
+  nodos(treeData: ContentTree[]) {
+
     if(treeData.length === 0) {
       return;
     }
 
-    treeData.forEach((node: any) => {
 
-      node.expanded = true;
+    treeData.forEach((node: ContentTree) => {
+
       if(this.isNodeActive(node)) {
         this.previousNode = node;
-        this.previousNode.styleClass = 'text-primary font-w-600'
+        this.previousNode.styleClass = 'active-node';
+        this.expandAllParentItems(node);
       }
 
       this.nodos(node.children);
     });
   }
 
-  isNodeActive(node: any): boolean {
+  private expandAllParentItems(item: ContentTree): void {
+    if(item.parent) {
+      item.parent.expanded = true;
+      this.expandAllParentItems(item.parent);
+    }
+  }
+
+  isNodeActive(node: ContentTree): boolean {
     return node.id === this.resourceId;
   }
 
   private logout(): void {
     this.tokenService.clearOnLogout();
+  }
+
+  private addParentToChildren = (contentTree: ContentTree[]): ContentTree[] => {
+    contentTree.forEach(item => {
+      item.children.forEach(itemChild => {
+        itemChild.parent = item;
+        this.addParentToChildren([itemChild]);
+      });
+    });
+    return contentTree;
   }
 }

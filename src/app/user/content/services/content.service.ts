@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {ContentTree} from "../models/content-tree";
 import {ContentRequest} from "../models/content-request";
 import {environment} from "../../../../environment/environment";
+import {Content} from "../models/content";
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,8 @@ export class ContentService {
     return this.http.put<void>(`${this.baseUrl}/${id}`, content);
   }
 
-  get(id: number) {
-    return this.http.get(this.baseUrl+'/'+id);
+  get(id: number): Observable<Content> {
+    return this.http.get<Content>(this.baseUrl+'/'+id);
   }
 
   getContenidosTree(): Observable<ContentTree[]> {

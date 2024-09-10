@@ -11,6 +11,7 @@ import {Button} from "primeng/button";
 import {DividerModule} from "primeng/divider";
 import localeEs from '@angular/common/locales/es';
 import {ContentSyncService} from "../../../../shared/services/content-sync.service";
+import {Content} from "../../models/content";
 
 registerLocaleData(localeEs, 'es');
 
@@ -42,7 +43,7 @@ export class ContentFormComponent implements OnInit{
   content: any;
   editable: boolean = false;
 
-  constructor(private contenidoService: ContentService,
+  constructor(private contentService: ContentService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private sanitizer: DomSanitizer,
@@ -55,7 +56,7 @@ export class ContentFormComponent implements OnInit{
 
   saveContent(): void {
     if(this.form.valid) {
-      this.contenidoService.saveContent(this.form.value)
+      this.contentService.saveContent(this.form.value)
         .pipe(
           switchMap(id =>  this.router.navigate(['contenido', id])),
           tap(() => this.syncContentService.sync())
@@ -68,7 +69,7 @@ export class ContentFormComponent implements OnInit{
 
   updateContent(): void {
     if(this.form.valid) {
-      this.contenidoService.updateContent(this.resourceId, this.form.value)
+      this.contentService.updateContent(this.resourceId, this.form.value)
         .pipe(
           switchMap(() => this.router.navigate(['contenido', this.resourceId])),
           tap(() => this.syncContentService.sync())
@@ -95,7 +96,7 @@ export class ContentFormComponent implements OnInit{
   }
 
   goToFormWithParentId(): void {
-    this.router.navigate(['/contenido'], {queryParams: {padreId: this.resourceId}})
+    this.router.navigate(['/contenido'], {queryParams: {parentId: this.resourceId}})
   }
 
   private loadContentIfExist(): void {
@@ -103,13 +104,13 @@ export class ContentFormComponent implements OnInit{
       .pipe(
         map(this.mapResourceId),
         filter(resourceId => !!resourceId),
-        switchMap(id => this.contenidoService.get(id)),
+        switchMap(id => this.contentService.get(id)),
         tap(this.preloadData),
 
       ).subscribe();
 
     this.activatedRoute.queryParams.subscribe(queryParams => {
-      this.parentId = +queryParams['padreId'];
+      this.parentId = +queryParams['parentId'];
       this.editable = queryParams['edit'];
       this.loadForm();
       if(this.editable) {
@@ -129,7 +130,7 @@ export class ContentFormComponent implements OnInit{
     });
   }
 
-  mapResourceId = (params: ParamMap): number => {
+  private mapResourceId = (params: ParamMap): number => {
     let resourceId = params.get('resourceId');
 
     if(resourceId) {
@@ -139,7 +140,7 @@ export class ContentFormComponent implements OnInit{
     return 0;
   }
 
-  preloadData = (resource: any): void => {
+  private preloadData = (resource: Content): void => {
     this.content = resource;
     this.safeHtml = this.sanitizer.bypassSecurityTrustHtml(resource.htmlContent);
   }
