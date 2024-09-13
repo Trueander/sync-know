@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { ToolbarModule } from 'primeng/toolbar';
 import {ButtonModule} from "primeng/button";
 import {SplitButtonModule} from "primeng/splitbutton";
-import {MenuItem} from "primeng/api";
+import {MenuItem, MenuItemCommandEvent} from "primeng/api";
 import {InputTextModule} from "primeng/inputtext";
 import { MenubarModule } from 'primeng/menubar';
 import {ToastModule} from "primeng/toast";
+import {TokenService} from "../../auth/service/token.service";
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -15,6 +16,9 @@ import {ToastModule} from "primeng/toast";
 })
 export class HomeComponent implements OnInit{
   items: MenuItem[] | undefined;
+
+  constructor(private tokenService: TokenService) {
+  }
 
   ngOnInit(): void {
     this.items = [
@@ -58,9 +62,12 @@ export class HomeComponent implements OnInit{
       {
         label: 'Cerrar sesión',
         icon: 'pi pi-sign-out',
-        routerLink: '/login'
-      },
-
+        command: () => this.logout()
+      }
     ];
+  }
+
+  private logout(): void {
+    this.tokenService.clearOnLogout();
   }
 }

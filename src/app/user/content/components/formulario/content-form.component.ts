@@ -12,6 +12,9 @@ import {DividerModule} from "primeng/divider";
 import localeEs from '@angular/common/locales/es';
 import {ContentSyncService} from "../../../../shared/services/content-sync.service";
 import {Content} from "../../models/content";
+import {DialogModule} from "primeng/dialog";
+import {PreContentModalService} from "../../services/pre-content-modal.service";
+import {DialogService} from "primeng/dynamicdialog";
 
 registerLocaleData(localeEs, 'es');
 
@@ -27,10 +30,13 @@ registerLocaleData(localeEs, 'es');
     AsyncPipe,
     DividerModule,
     DatePipe,
-    RouterLink
+    RouterLink,
+    DialogModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'es' }
+    { provide: LOCALE_ID, useValue: 'es' },
+    PreContentModalService,
+    DialogService
   ],
   templateUrl: './content-form.component.html',
   styleUrl: './content-form.component.scss'
@@ -40,31 +46,20 @@ export class ContentFormComponent implements OnInit{
   safeHtml!: SafeHtml;
   resourceId!: number;
   parentId!: number;
-  content: any;
+  content!: Content;
   editable: boolean = false;
 
   constructor(private contentService: ContentService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private sanitizer: DomSanitizer,
-              private syncContentService: ContentSyncService) {
+              private syncContentService: ContentSyncService,
+              private modal: PreContentModalService) {
   }
 
   ngOnInit(): void {
+    this.loadForm();
     this.loadContentIfExist();
-  }
-
-  saveContent(): void {
-    if(this.form.valid) {
-      this.contentService.saveContent(this.form.value)
-        .pipe(
-          switchMap(id =>  this.router.navigate(['contenido', id])),
-          tap(() => this.syncContentService.sync())
-        )
-        .subscribe();
-    } else {
-      this.form.markAllAsTouched();
-    }
   }
 
   updateContent(): void {
@@ -96,7 +91,7 @@ export class ContentFormComponent implements OnInit{
   }
 
   goToFormWithParentId(): void {
-    this.router.navigate(['/contenido'], {queryParams: {parentId: this.resourceId}})
+    this.modal.show(this.content);
   }
 
   private loadContentIfExist(): void {
@@ -106,27 +101,27 @@ export class ContentFormComponent implements OnInit{
         filter(resourceId => !!resourceId),
         switchMap(id => this.contentService.get(id)),
         tap(this.preloadData),
+        switchMap(() => this.activatedRoute.queryParams),
+        tap(queryParams => {
+          this.parentId = +queryParams['parentId'];
+          this.editable = queryParams['edit'];
+          if(this.editable) {
+            this.form.patchValue({
+              title: this.content.title,
+              htmlContent: this.content.htmlContent,
+            });
+          }
+        })
 
       ).subscribe();
 
-    this.activatedRoute.queryParams.subscribe(queryParams => {
-      this.parentId = +queryParams['parentId'];
-      this.editable = queryParams['edit'];
-      this.loadForm();
-      if(this.editable) {
-        this.form.patchValue({
-          title: this.content.title,
-          htmlContent: this.content.htmlContent,
-        });
-      }
-    });
   }
 
   private loadForm(): void {
     this.form = new FormGroup({
       title: new FormControl(null, Validators.required),
       htmlContent: new FormControl(null, Validators.required),
-      parentId: new FormControl(this.parentId),
+      parentId: new FormControl(null),
     });
   }
 

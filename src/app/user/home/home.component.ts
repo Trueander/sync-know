@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SplitButtonModule} from "primeng/splitbutton";
 import {ToolbarModule} from "primeng/toolbar";
 import {InputTextModule} from "primeng/inputtext";
@@ -13,16 +13,19 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AsyncPipe, NgClass, NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {Ripple} from "primeng/ripple";
-import {map, Observable, switchMap, tap} from "rxjs";
+import {map, Observable, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {ContentService} from "../content/services/content.service";
 import {ProgressBarModule} from "primeng/progressbar";
 import {TokenService} from "../../auth/service/token.service";
 import {ContentSyncService} from "../../shared/services/content-sync.service";
 import {ContentTree} from "../content/models/content-tree";
+import {PreContentModalService} from "../content/services/pre-content-modal.service";
+import {DialogService} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-home',
   standalone: true,
+  providers: [PreContentModalService, DialogService],
   imports: [
     SplitButtonModule,
     ToolbarModule,
@@ -45,27 +48,22 @@ import {ContentTree} from "../content/models/content-tree";
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit, OnDestroy{
   items: MenuItem[] | undefined;
   userAcronyms: string = 'U';
   treeData: ContentTree[] = [];
   resourceId!: number | undefined;
   previousNode!: ContentTree;
+  unsubscribe$: Subject<void> = new Subject<void>();
+
   constructor(private contenidoService: ContentService,
               private router: Router,
               private tokenService: TokenService,
-              private syncContentService: ContentSyncService) {
+              private syncContentService: ContentSyncService,
+              private modal: PreContentModalService) {
   }
 
   ngOnInit(): void {
-    const url = this.router.url;
-    const index = url.indexOf('/contenido/');
-    if (index !== -1) {
-      this.resourceId = +url.substring(index + '/contenido/'.length);
-    } else {
-      this.resourceId = undefined;
-    }
-
     this.getContent$().subscribe();
     this.loadUserData();
 
@@ -82,18 +80,34 @@ export class HomeComponent implements OnInit{
     ];
 
     this.syncContentService.syncListContent$
-      .pipe(switchMap(() => this.getContent$()))
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        switchMap(() => this.getContent$()))
       .subscribe();
+  }
+
+  private saveResourceIdIfExist$(): void {
+    const url = this.router.url;
+    const index = url.indexOf('/contenido/');
+    if (index !== -1) {
+      const afterContent = url.substring(index + '/contenido/'.length);
+      const idString = afterContent.split('?')[0];
+      this.resourceId = +idString;
+    } else {
+      this.resourceId = undefined;
+    }
   }
 
   private getContent$(): Observable<ContentTree[]>{
     return this.contenidoService.getContenidosTree()
       .pipe(
+        takeUntil(this.unsubscribe$),
         map(this.addParentToChildren),
         tap((response) => {
-        this.markActiveNode(response);
-        this.treeData = response;
-        console.log(this.treeData)
+          this.treeData = [];
+          this.saveResourceIdIfExist$();
+          this.markActiveNode(response);
+          this.treeData = response;
       }));
   }
 
@@ -115,7 +129,7 @@ export class HomeComponent implements OnInit{
   }
 
   goToForm(): void {
-    this.router.navigate(['contenido']);
+    this.modal.show();
   }
 
   nodos(treeData: ContentTree[]) {
@@ -123,7 +137,6 @@ export class HomeComponent implements OnInit{
     if(treeData.length === 0) {
       return;
     }
-
 
     treeData.forEach((node: ContentTree) => {
 
@@ -160,5 +173,10 @@ export class HomeComponent implements OnInit{
       });
     });
     return contentTree;
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

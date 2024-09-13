@@ -24,7 +24,7 @@
         <quill-editor formControlName="htmlContent" id="documentacion" ></quill-editor>
       </div>
       <div class="d-flex gap-5">
-        <p-button [label]="resourceId ? 'Actualizar contenido' : 'Guardar contenido'" (click)="resourceId ? updateContent() : saveContent()"/>
+        <p-button label='Guardar contenido' (click)="updateContent()"/>
         <p-button label="Volver al detalle" severity="secondary" [outlined]="true" (click)="goBackToDetail()" *ngIf="editable"/>
       </div>
     </form>
