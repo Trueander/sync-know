@@ -1,8 +1,8 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ToolbarModule } from 'primeng/toolbar';
 import {ButtonModule} from "primeng/button";
 import {SplitButtonModule} from "primeng/splitbutton";
-import {MenuItem, MenuItemCommandEvent} from "primeng/api";
+import {MenuItem} from "primeng/api";
 import {InputTextModule} from "primeng/inputtext";
 import { MenubarModule } from 'primeng/menubar';
 import {ToastModule} from "primeng/toast";

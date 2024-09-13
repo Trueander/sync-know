@@ -28,7 +28,7 @@
     <div class="navigation">
       <h4 class="p-text-secondary m-left-10 m-bottom-5">Navegación</h4>
       <p-divider styleClass="my-10"/>
-      <p-tree [value]="treeData" selectionMode="single" (onNodeSelect)="nodeSelect($event, nodoElement)" #nodoElement />
+      <p-tree [value]="treeData" selectionMode="single" (onNodeSelect)="nodeSelect($event)"/>
     </div>
     <div class="content">
       <router-outlet></router-outlet>

@@ -115,7 +115,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     this.userAcronyms = this.tokenService.getFullNameAcronyms();
   }
 
-  nodeSelect(nodo: any, element: any): void {
+  nodeSelect(nodo: any): void {
     this.router.navigate(['/contenido/', nodo.node.id]);
     if(this.previousNode) {
       this.previousNode.styleClass = '';
