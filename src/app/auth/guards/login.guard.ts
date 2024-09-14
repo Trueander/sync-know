@@ -9,6 +9,13 @@ export class LoginGuard implements CanActivate {
   constructor(private tokenService: TokenService, private router: Router) {}
 
   canActivate(): boolean | UrlTree {
-      return !this.tokenService.isAuthenticated() ? true : this.router.createUrlTree(['/dashboard']);
+
+    if(!this.tokenService.isAuthenticated()) {
+      return true;
+    }
+
+    const roles = this.tokenService.getRoles();
+    let route = roles.includes('ADMIN') ? '/admin' : '/';
+    return this.router.createUrlTree([route])
   }
 }

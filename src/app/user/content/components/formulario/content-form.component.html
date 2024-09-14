@@ -1,0 +1,33 @@
+<div class="contenedor">
+  <ng-container *ngIf="safeHtml && !editable && !parentId; else formulario">
+    <div class="d-flex justify-content-space-btw align-items-end">
+      <h1 class="m-bottom-0">{{content.title}}</h1>
+      <div class="d-flex gap-10">
+        <p-button label="Editar" [outlined]="true" severity="info" (click)="goToEditContent()"/>
+        <p-button label="Crear" [outlined]="true" (click)="goToFormWithParentId()"/>
+      </div>
+    </div>
+    <small class="font-w-500 p-text-secondary">Creado por <span class="font-w-500 text-primary">{{content.user.firstname + ' ' + content.user.lastname}}</span> el {{content.createdAt | date: 'd \'de\' MMMM \'de\' y, H:mm:ss'}}</small>
+    <p-divider />
+    <div [innerHTML]="safeHtml"></div>
+  </ng-container>
+
+  <ng-template #formulario>
+    <form [formGroup]="form" novalidate>
+      <h2>Registro de contenido</h2>
+      <div class="d-flex flex-column gap-5 m-bottom-10">
+        <label for="titulo">Título</label>
+        <input id="titulo" formControlName="title" type="text" pInputText/>
+      </div>
+      <div class="d-flex flex-column gap-5 m-bottom-10">
+        <label for="documentacion">Documentación</label>
+        <quill-editor formControlName="htmlContent" id="documentacion" ></quill-editor>
+      </div>
+      <div class="d-flex gap-5">
+        <p-button label='Guardar contenido' (click)="updateContent()"/>
+        <p-button label="Volver al detalle" severity="secondary" [outlined]="true" (click)="goBackToDetail()" *ngIf="editable"/>
+      </div>
+    </form>
+  </ng-template>
+
+</div>

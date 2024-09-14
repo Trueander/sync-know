@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Router} from "@angular/router";
-import {jwtDecode, JwtPayload} from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import {JwtPayloadLocal} from "../models/jwt-payload";
 
 @Injectable({
@@ -23,15 +23,6 @@ export class TokenService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  getUsername(): string | undefined {
-    let token = this.getToken();
-    if(!token) {
-      return undefined;
-    }
-    const decodedToken: JwtPayload = jwtDecode(token);
-    return decodedToken && decodedToken.sub;
-  }
-
   getRoles(): string[] {
     let token = this.getToken();
     if(!token) {
@@ -39,6 +30,15 @@ export class TokenService {
     }
     const decodedToken: JwtPayloadLocal = jwtDecode(token);
     return decodedToken.roles.map(role => role.split("_")[1]);
+  }
+
+  getFullNameAcronyms(): string {
+    let token = this.getToken();
+    if(!token) {
+      return '';
+    }
+    const decodedToken: JwtPayloadLocal = jwtDecode(token);
+    return decodedToken.firstname[0] + decodedToken.lastname[0];
   }
 
   clearOnLogout(): void {

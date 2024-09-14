@@ -1,0 +1,22 @@
+<div class="pre-content-form">
+  <form [formGroup]="contentForm" (ngSubmit)="createContentAndRedirectToEdit()">
+    <div class="d-flex flex-column gap-5 m-bottom-10">
+      <label for="title">Título</label>
+      <input id="title" formControlName="title" type="text" pInputText/>
+    </div>
+    <div class="">
+      <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template pTemplate="item" let-item>
+          <a [class]="item.styleClass || ''" [pTooltip]="item.tooltip" tooltipPosition="top" [tooltipDisabled]="!item.tooltip">
+            <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
+            <span>{{ item.label }}</span>
+          </a>
+        </ng-template>
+      </p-breadcrumb>
+    </div>
+    <div class="m-top-20 d-flex justify-content-flex-end gap-10">
+      <p-button label="Cerrar" [outlined]="true" severity="secondary" (click)="dialogRef.close()"/>
+      <p-button label="Continuar" type="submit" severity="primary"/>
+    </div>
+  </form>
+</div>
