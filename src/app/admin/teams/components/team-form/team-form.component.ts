@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {EquipoService} from "../../services/equipo.service";
+import {TeamService} from "../../services/team.service";
 import {Button} from "primeng/button";
 import {CardModule} from "primeng/card";
 import {InputTextModule} from "primeng/inputtext";
@@ -38,7 +38,7 @@ export class TeamFormComponent implements OnInit{
   addMoreForm: FormControl = new FormControl(false);
   title: string = 'Crear equipo';
 
-  constructor(private teamService: EquipoService,
+  constructor(private teamService: TeamService,
               private messageService: MessageService,
               private activatedRoute: ActivatedRoute,
               private router: Router) {

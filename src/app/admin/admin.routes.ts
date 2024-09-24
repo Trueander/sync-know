@@ -10,11 +10,15 @@ export const ADMIN_ROUTES: Routes = [
       },
       {
         path: 'equipos',
-        loadChildren: () => import('./teams/equipos.routes').then(m => m.EQUIPOS_ROUTES)
+        loadChildren: () => import('./teams/teams.routes').then(m => m.TEAMS_ROUTES)
       },
       {
         path: 'usuarios',
         loadChildren: () => import('./users/user.routes').then(m => m.USER_ROUTES)
+      },
+      {
+        path: 'templates',
+        loadChildren: () => import('./templates/templates.routes').then(m => m.TEMPLATES_ROUTES)
       }
     ]
   },

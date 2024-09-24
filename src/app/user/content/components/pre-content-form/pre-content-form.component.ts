@@ -5,14 +5,20 @@ import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {BreadcrumbModule} from "primeng/breadcrumb";
-import {NgClass, NgIf} from "@angular/common";
+import {AsyncPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {MenuItem} from "primeng/api";
 import {Content} from "../../models/content";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {Subject, switchMap, takeUntil, tap} from "rxjs";
+import {Observable, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {ContentService} from "../../services/content.service";
 import {ContentSyncService} from "../../../../shared/services/content-sync.service";
+import {TemplateService} from "../../../../admin/templates/services/template.service";
+import {Template} from "../../../../admin/templates/models/template";
+import {PageReponse} from "../../../../shared/models/page-reponse";
+import {CardModule} from "primeng/card";
+import {DividerModule} from "primeng/divider";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-pre-content-form',
@@ -25,7 +31,11 @@ import {ContentSyncService} from "../../../../shared/services/content-sync.servi
     ReactiveFormsModule,
     BreadcrumbModule,
     NgClass,
-    NgIf
+    NgIf,
+    AsyncPipe,
+    NgForOf,
+    CardModule,
+    DividerModule
   ],
   templateUrl: './pre-content-form.component.html',
   styleUrl: './pre-content-form.component.scss'
@@ -36,12 +46,19 @@ export class PreContentFormComponent implements OnInit{
   items: MenuItem[] | undefined;
   newItem!: MenuItem;
   unsubscribe$: Subject<void> = new Subject<void>();
+  templates$!: Observable<Template[]>;
+  visible: boolean = false;
+  selectedTemplate!: Template | undefined;
+  safeHtml!: SafeHtml;
+  title: string ='';
 
   constructor(private config: DynamicDialogConfig,
               public dialogRef: DynamicDialogRef,
               private router: Router,
               private contentService: ContentService,
-              private syncContentService: ContentSyncService) {
+              private syncContentService: ContentSyncService,
+              private templateService: TemplateService,
+              private sanitizer: DomSanitizer) {
     this.contentForm = new FormGroup({
       title: new FormControl(null, Validators.required),
       htmlContent: new FormControl(''),
@@ -57,6 +74,7 @@ export class PreContentFormComponent implements OnInit{
       this.items = [{icon: 'pi pi-home', tooltip: 'Esta será la ruta base del nuevo contenido'}, this.newItem];
     }
     this.listenToTitle();
+    this.templates$ = this.templateService.getTemplates();
   }
 
   private listenToTitle(): void {
@@ -91,5 +109,25 @@ export class PreContentFormComponent implements OnInit{
     ];
     this.parentContent = content;
     this.contentForm.get('parentId')?.setValue(this.parentContent.id);
+  }
+
+  showTemplate(template: Template, event: Event): void {
+    event.stopPropagation();
+    this.visible = true;
+    this.safeHtml = this.sanitizer.bypassSecurityTrustHtml(template.htmlContent);
+    this.title = template.title;
+  }
+
+  selectTemplate(template: Template): void {
+    if(this.selectedTemplate && this.selectedTemplate.id !== template.id) {
+      this.contentForm.get('htmlContent')?.setValue(template.htmlContent);
+      this.selectedTemplate = template;
+    } else if (this.selectedTemplate && this.selectedTemplate.id === template.id) {
+      this.selectedTemplate = undefined;
+      this.contentForm.get('htmlContent')?.setValue('');
+    } else {
+      this.contentForm.get('htmlContent')?.setValue(template.htmlContent);
+      this.selectedTemplate = template;
+    }
   }
 }
