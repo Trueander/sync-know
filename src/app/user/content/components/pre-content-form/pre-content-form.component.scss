@@ -1,0 +1,35 @@
+:host {
+  .template-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-height: 180px;
+    overflow: auto;
+    padding: 5px 5px 15px 5px;
+  }
+
+  .active {
+    background: #d9d9d9 !important;
+  }
+
+  .card {
+    padding: 8px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0, rgba(27, 31, 35, 0.15) 0 0 0 1px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    cursor: pointer;
+
+    .show-icon {
+      margin-top: 2px;
+      &:hover {
+        color: #000;
+      }
+    }
+
+    &:hover {
+    background: #f3f3f3;
+  }
+  }
+}

@@ -14,7 +14,7 @@ export class PreContentModalService implements OnDestroy {
   show(parentContent?: Content): void {
     this.ref = this.dialogService.open(PreContentFormComponent, {
       header: 'Crear nuevo contenido',
-      width: '50vw',
+      width: '700px',
       contentStyle: { overflow: 'auto' },
       breakpoints: {
         '960px': '75vw',

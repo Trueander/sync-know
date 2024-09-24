@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TableLazyLoadEvent, TableModule} from "primeng/table";
 import {Team} from "../../models/team.model";
 import {Button} from "primeng/button";
-import {EquipoService} from "../../services/equipo.service";
+import {TeamService} from "../../services/team.service";
 import {catchError, debounceTime, distinctUntilChanged, EMPTY, filter, Observable, tap} from "rxjs";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-equipos-list',
+  selector: 'app-teams-list',
   standalone: true,
   imports: [
     TableModule,
@@ -30,17 +30,17 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
     InputTextModule,
     ReactiveFormsModule
   ],
-  templateUrl: './equipos-list.component.html',
-  styleUrl: './equipos-list.component.scss'
+  templateUrl: './teams-list.component.html',
+  styleUrl: './teams-list.component.scss'
 })
-export class EquiposListComponent implements OnInit{
+export class TeamsListComponent implements OnInit{
   teams: Team[] = [];
   totalRecords: number = 0;
   pageSize: number = 0;
   page: number = 0;
   searchFormControl: FormControl = new FormControl('');
 
-  constructor(private teamService: EquipoService) {
+  constructor(private teamService: TeamService) {
   }
 
   ngOnInit(): void {

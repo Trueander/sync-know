@@ -6,10 +6,9 @@ import {Button} from "primeng/button";
 import {CardModule} from "primeng/card";
 import {InputTextModule} from "primeng/inputtext";
 import {DropdownModule} from "primeng/dropdown";
-import {EquipoService} from "../../../teams/services/equipo.service";
+import {TeamService} from "../../../teams/services/team.service";
 import {catchError, EMPTY, filter, map, Observable, switchMap, tap} from "rxjs";
 import {AsyncPipe, NgClass, NgIf} from "@angular/common";
-import {MessageService} from "primeng/api";
 import {ActivatedRoute, ParamMap, Router, RouterLink} from "@angular/router";
 import {RoleService} from "../../../../shared/services/role.service";
 import {Role} from "../../../../shared/models/role";
@@ -40,7 +39,7 @@ export class UserFormComponent implements OnInit {
   userId!: number | null;
 
   constructor(private userService: UserService,
-              private teamService: EquipoService,
+              private teamService: TeamService,
               private roleService: RoleService,
               private router: Router,
               private activatedRoute: ActivatedRoute,

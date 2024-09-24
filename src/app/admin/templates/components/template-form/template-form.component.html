@@ -1,0 +1,32 @@
+<div class="template-form container">
+  <form [formGroup]="form" novalidate>
+    <h2 class="m-top-0">{{title}}</h2>
+    <div class="m-bottom-10 header">
+      <div class="d-flex flex-column gap-5 input">
+        <label for="title">Título</label>
+        <input id="title" formControlName="title" type="text" pInputText/>
+      </div>
+      <div class="d-flex flex-column gap-5 team-select">
+        <label>Equipos</label>
+        <ng-container *ngIf="teams$ | async as teams">
+          <p-multiSelect
+            [options]="teams"
+            formControlName="teamsIds"
+            optionValue="id"
+            optionLabel="name"
+            styleClass="w-100"
+            selectedItemsLabel="{0} equipos seleccionados"
+            placeholder="Asignar equipos"/>
+        </ng-container>
+      </div>
+    </div>
+    <div class="d-flex flex-column gap-5 m-bottom-10">
+      <label for="content">Plantilla</label>
+      <quill-editor formControlName="htmlContent" id="content" ></quill-editor>
+    </div>
+    <div class="d-flex gap-5">
+      <p-button label='Guardar contenido' (click)="saveTemplate()"/>
+      <p-button label="Volver al detalle" severity="secondary" [outlined]="true" [routerLink]="'/admin/templates'"/>
+    </div>
+  </form>
+</div>

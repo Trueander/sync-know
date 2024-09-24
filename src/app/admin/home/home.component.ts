@@ -23,11 +23,6 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     this.items = [
       {
-        label: 'Dashboard',
-        icon: 'pi pi-home',
-        routerLink: '/admin'
-      },
-      {
         label: 'Equipos',
         icon: 'pi pi-users',
         items: [
@@ -56,6 +51,22 @@ export class HomeComponent implements OnInit{
             label: 'Crear usuario',
             icon: 'pi pi-plus',
             routerLink: '/admin/usuarios/crear'
+          }
+        ]
+      },
+      {
+        label: 'Plantillas',
+        icon: 'pi pi-file',
+        items: [
+          {
+            label: 'Listar plantillas',
+            icon: 'pi pi-list',
+            routerLink: '/admin/templates'
+          },
+          {
+            label: 'Crear plantilla',
+            icon: 'pi pi-plus',
+            routerLink: '/admin/templates/crear'
           }
         ]
       },

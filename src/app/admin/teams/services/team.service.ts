@@ -8,7 +8,7 @@ import {PageReponse} from "../../../shared/models/page-reponse";
 @Injectable({
   providedIn: 'root'
 })
-export class EquipoService {
+export class TeamService {
   baseUrl: string = `${environment.apiUrl}/teams`;
   constructor(private http: HttpClient) { }
 

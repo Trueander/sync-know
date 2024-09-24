@@ -1,0 +1,15 @@
+:host {
+  .container {
+    width: 65rem;
+  }
+
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  ::ng-deep p-multiSelect p-overlay .p-overlay {
+    width: 100%;
+  }
+}

@@ -4,7 +4,7 @@
       <label for="title">Título</label>
       <input id="title" formControlName="title" type="text" pInputText/>
     </div>
-    <div class="">
+    <div>
       <p-breadcrumb class="max-w-full" [model]="items">
         <ng-template pTemplate="item" let-item>
           <a [class]="item.styleClass || ''" [pTooltip]="item.tooltip" tooltipPosition="top" [tooltipDisabled]="!item.tooltip">
@@ -14,9 +14,28 @@
         </ng-template>
       </p-breadcrumb>
     </div>
+    <div class="d-flex flex-column">
+      <label class="my-10">Seleccionar plantilla</label>
+      <div class="d-flex flex-column">
+        <div class="template-items">
+          <ng-container *ngFor="let item of templates$ | async">
+            <div class="card" (click)="selectTemplate(item)" [class.active]="selectedTemplate && selectedTemplate.id === item.id">
+              <div class="d-flex gap-5">
+                <i class="pi pi-file-edit"></i>
+                {{item.title}}
+              </div>
+              <i class="pi pi-eye show-icon" (click)="showTemplate(item, $event)"></i>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
     <div class="m-top-20 d-flex justify-content-flex-end gap-10">
       <p-button label="Cerrar" [outlined]="true" severity="secondary" (click)="dialogRef.close()"/>
       <p-button label="Continuar" type="submit" severity="primary"/>
     </div>
   </form>
+  <p-dialog [header]="title" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '80rem' }">
+    <div [innerHTML]="safeHtml"></div>
+  </p-dialog>
 </div>

@@ -57,7 +57,7 @@ export class LoginComponent {
   private redirectOnRole = (): void => {
     const roles = this.tokenService.getRoles();
     if(roles.includes('ADMIN')) {
-      this.router.navigate(['/admin']);
+      this.router.navigate(['/admin/equipos']);
     } else {
       this.router.navigate(['/']);
     }
