@@ -234,7 +234,7 @@ html, body {
 }
 
 .p-bottom-0 {
-  padding-bottom: 5px;
+  padding-bottom: 0px;
 }
 
 .p-bottom-5 {
@@ -328,6 +328,7 @@ html, body {
 .flex-row { flex-direction: row; }
 .flex-nowrap { flex-wrap: nowrap; }
 .flex-wrap { flex-wrap: wrap; }
+.justify-content-center {  justify-content: center; }
 .justify-content-space-btw { justify-content: space-between; }
 .justify-content-flex-end { justify-content: flex-end; }
 .align-items-center { align-items: center; }
@@ -388,6 +389,14 @@ html, body {
 
 .text-primary {
   color: var(--primary-color);
+}
+
+.text-dark {
+  color: #272727;
+}
+
+.text-decoration-none {
+  text-decoration: none;
 }
 
 .ng-touched.ng-invalid {

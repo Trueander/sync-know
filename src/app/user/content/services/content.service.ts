@@ -5,6 +5,7 @@ import {ContentTree} from "../models/content-tree";
 import {ContentRequest} from "../models/content-request";
 import {environment} from "../../../../environment/environment";
 import {Content} from "../models/content";
+import {PageReponse} from "../../../shared/models/page-reponse";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,11 @@ export class ContentService {
 
   get(id: number): Observable<Content> {
     return this.http.get<Content>(this.baseUrl+'/'+id);
+  }
+
+  searchContent(criteria: string, page: number, pageSize: number): Observable<PageReponse<Content>> {
+    return this.http.get<PageReponse<Content>>(`${this.baseUrl}?criteria=${criteria}&page=${page}&size=${pageSize}`)
+      .pipe(map((response: any) => new PageReponse<Content>(response.content, response.totalElements)));
   }
 
   getContenidosTree(): Observable<ContentTree[]> {
