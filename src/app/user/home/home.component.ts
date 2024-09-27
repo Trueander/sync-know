@@ -21,11 +21,12 @@ import {ContentSyncService} from "../../shared/services/content-sync.service";
 import {ContentTree} from "../content/models/content-tree";
 import {PreContentModalService} from "../content/services/pre-content-modal.service";
 import {DialogService} from "primeng/dynamicdialog";
+import {SearchContentModalService} from "../content/services/search-content-modal.service";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  providers: [PreContentModalService, DialogService],
+  providers: [PreContentModalService, DialogService, SearchContentModalService],
   imports: [
     SplitButtonModule,
     ToolbarModule,
@@ -60,7 +61,8 @@ export class HomeComponent implements OnInit, OnDestroy{
               private router: Router,
               private tokenService: TokenService,
               private syncContentService: ContentSyncService,
-              private modal: PreContentModalService) {
+              private modalContentService: PreContentModalService,
+              private modalSearchService: SearchContentModalService) {
   }
 
   ngOnInit(): void {
@@ -129,7 +131,11 @@ export class HomeComponent implements OnInit, OnDestroy{
   }
 
   goToForm(): void {
-    this.modal.show();
+    this.modalContentService.show();
+  }
+
+  openSearchModal(): void {
+    this.modalSearchService.show();
   }
 
   nodos(treeData: ContentTree[]) {
