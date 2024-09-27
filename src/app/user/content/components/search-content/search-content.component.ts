@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IconFieldModule} from "primeng/iconfield";
 import {InputIconModule} from "primeng/inputicon";
 import {InputTextModule} from "primeng/inputtext";
@@ -50,7 +50,7 @@ import {RecentSearchService} from "../../services/recent-search.service";
   templateUrl: './search-content.component.html',
   styleUrl: './search-content.component.scss'
 })
-export class SearchContentComponent implements OnInit {
+export class SearchContentComponent implements OnInit, OnDestroy {
   searchFC: FormControl = new FormControl('');
   contentList!: Content[] | undefined;
   size: number = 6;
@@ -138,5 +138,10 @@ export class SearchContentComponent implements OnInit {
 
   private loadRecentSearches(): void {
     this.recentSearches = this.recentSearchService.getRecentSearches();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
