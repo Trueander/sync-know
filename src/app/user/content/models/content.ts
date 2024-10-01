@@ -5,5 +5,8 @@ export class Content {
               public title: string,
               public htmlContent: string,
               public createdAt: Date,
-              public user: User) { }
+              public updatedAt: Date,
+              public user: User,
+              public isImportant: boolean,
+              public dateMarkAsImportant: Date) { }
 }

@@ -15,6 +15,9 @@ import {Content} from "../../models/content";
 import {DialogModule} from "primeng/dialog";
 import {PreContentModalService} from "../../services/pre-content-modal.service";
 import {DialogService} from "primeng/dynamicdialog";
+import {UserService} from "../../../../admin/users/services/user.service";
+import {TooltipModule} from "primeng/tooltip";
+import {successAlert} from "../../../../shared/utils/alert-messages.utils";
 
 registerLocaleData(localeEs, 'es');
 
@@ -31,7 +34,8 @@ registerLocaleData(localeEs, 'es');
     DividerModule,
     DatePipe,
     RouterLink,
-    DialogModule
+    DialogModule,
+    TooltipModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },
@@ -48,18 +52,38 @@ export class ContentFormComponent implements OnInit{
   parentId!: number;
   content!: Content;
   editable: boolean = false;
+  isFavoriteForCurrentUser: boolean = false;
 
   constructor(private contentService: ContentService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private sanitizer: DomSanitizer,
               private syncContentService: ContentSyncService,
-              private modal: PreContentModalService) {
+              private modal: PreContentModalService,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
     this.loadForm();
     this.loadContentIfExist();
+  }
+
+  private verifyFavoriteForCurrentUser(): void {
+    this.userService.verifyFavoriteContentExist(this.resourceId)
+      .subscribe(response => this.isFavoriteForCurrentUser = response);
+  }
+
+  updateFavoriteStatus(): void {
+    const observable = this.isFavoriteForCurrentUser ?
+      this.userService.removeFavoriteContent(this.resourceId) :
+      this.userService.addFavoriteContent(this.resourceId);
+    observable.pipe(
+      tap(() => {
+        this.isFavoriteForCurrentUser = !this.isFavoriteForCurrentUser;
+        successAlert(`${this.isFavoriteForCurrentUser ? 'Agregado a' : 'Removido de'} lista de favoritos`)
+
+      })
+    ).subscribe();
   }
 
   updateContent(): void {
@@ -110,11 +134,11 @@ export class ContentFormComponent implements OnInit{
               title: this.content.title,
               htmlContent: this.content.htmlContent,
             });
+          } else {
+            this.verifyFavoriteForCurrentUser();
           }
         })
-
       ).subscribe();
-
   }
 
   private loadForm(): void {

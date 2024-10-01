@@ -5,8 +5,8 @@ import {environment} from "../../../../environment/environment";
 import {User} from "../models/user.model";
 import {LoginDTO} from "../models/login";
 import {PageReponse} from "../../../shared/models/page-reponse";
-import {Team} from "../../teams/models/team.model";
 import {UserRequest} from "../models/user-request.model";
+import {Content} from "../../../user/content/models/content";
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +19,6 @@ export class UserService {
   getUsersPagination(page: number, size: number, search: string): Observable<PageReponse<User>> {
     return this.http.get<PageReponse<User>>(`${this.baseUrl}?page=${page}&size=${size}&search=${search}`)
       .pipe(map((response: any) => new PageReponse<User>(response.content, response.totalElements)));
-  }
-
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}`);
   }
 
   getUserById(userId: number): Observable<User> {
@@ -43,5 +39,21 @@ export class UserService {
 
   deleteUserById(userId: number): Observable<boolean> {
     return this.http.delete<boolean>(`${this.baseUrl}/${userId}`);
+  }
+
+  getFavoriteContentByUser(): Observable<Content[]> {
+    return this.http.get<Content[]>(`${this.baseUrl}/favorite-content`);
+  }
+
+  addFavoriteContent(contentId: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/favorite-content/${contentId}`, {});
+  }
+
+  removeFavoriteContent(contentId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/favorite-content/${contentId}`);
+  }
+
+  verifyFavoriteContentExist(contentId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}/favorite-content/${contentId}/verify`);
   }
 }

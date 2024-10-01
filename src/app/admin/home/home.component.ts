@@ -56,17 +56,28 @@ export class HomeComponent implements OnInit{
       },
       {
         label: 'Plantillas',
-        icon: 'pi pi-file',
+        icon: 'pi pi-file-check',
         items: [
           {
             label: 'Listar plantillas',
             icon: 'pi pi-list',
-            routerLink: '/admin/templates'
+            routerLink: '/admin/plantillas'
           },
           {
             label: 'Crear plantilla',
             icon: 'pi pi-plus',
             routerLink: '/admin/templates/crear'
+          }
+        ]
+      },
+      {
+        label: 'Contenidos',
+        icon: 'pi pi-file',
+        items: [
+          {
+            label: 'Listar contenidos',
+            icon: 'pi pi-list',
+            routerLink: '/admin/contenidos'
           }
         ]
       },

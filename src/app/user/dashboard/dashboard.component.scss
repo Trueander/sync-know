@@ -1,0 +1,51 @@
+.dashboard {
+
+  .dashboard-content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 30px;
+    .card {
+      padding: 16px;
+      border-radius: 16px;
+      background: #FBFBFB;
+      border: 1px solid var(--blue-100);
+
+      .card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 5px 10px 10px 0;
+        margin-top: 10px;
+
+        .card-item, .card-item-important {
+          background: #FFF;
+          padding: 10px;
+          border-radius: 10px;
+          border: 1px solid var(--blue-100);
+          position: relative;
+
+          .icon-important {
+            position: absolute;
+            top: -5px;
+            right: 0;
+            color: var(--orange-400);
+          }
+
+          .text-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+        }
+
+        .card-item-important {
+          border: 1px solid var(--orange-400);
+
+        }
+      }
+    }
+  }
+}

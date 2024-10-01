@@ -3,7 +3,12 @@
   <div class="card">
     <p-toolbar>
       <div class="p-toolbar-group-start d-flex gap-25">
-        <img class="logo" src="./assets/logo.png" alt="logo">
+        <a routerLink="/">
+          <img  class="logo" src="./assets/logo.png" alt="logo">
+        </a>
+        <a class="text-decoration-none font-w-500 text-dark" routerLink="/" routerLinkActive="active-route" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="pi pi-home m-right-5"></i> Dashboard
+        </a>
         <p-button label="Crear contenido" size="small" (click)="goToForm()"></p-button>
       </div>
       <div class="p-toolbar-group-center">

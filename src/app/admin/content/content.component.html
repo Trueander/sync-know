@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="d-flex col-gap-10 align-items-center m-bottom-10">
+    <h2 class="my-0">Contenidos</h2>
+  </div>
+  <div class="w-100">
+    <p-table [value]="contents"
+             [paginator]="true"
+             [rows]="5"
+             [totalRecords]="totalRecords"
+             [rowsPerPageOptions]="[5,10,20]"
+             [lazy]="true" (onLazyLoad)="searchContent($event)">
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <p-iconField iconPosition="left">
+            <p-inputIcon>
+              <i class="pi pi-search"></i>
+            </p-inputIcon>
+            <input
+              pInputText
+              [formControl]="searchFormControl"
+              type="text"
+              placeholder="Buscar contenido" />
+          </p-iconField>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Título</th>
+          <th>Creado</th>
+          <th>Autor</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-content>
+        <tr>
+          <td>{{ content.title }}</td>
+          <td>{{ content.createdAt | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ content.user.firstname + ' ' + content.user.lastname }}</td>
+          <td class="d-flex gap-5">
+            <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="primary" (click)="showContent(content.id)"/>
+            <p-button
+              (click)="updateImportantStatus(content)"
+              [icon]="content.isImportant ? 'pi pi-star-fill' : 'pi pi-star'"
+              [rounded]="true"
+              [text]="true" severity="warning" [pTooltip]="content.isImportant ? 'Remover importante' : 'Marcar importante'" tooltipPosition="top"/>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <p-dialog *ngIf="contentToShow"
+            [header]="contentToShow.title"
+            [modal]="true"
+            [draggable]="false"
+            [(visible)]="toggleModal"
+            [breakpoints]="{
+              '960px': '90vw',
+              '640px': '90vw'
+            }"
+            [style]="{ width: '60rem' }">
+    <div [innerHTML]="contentToShow.htmlContent"></div>
+  </p-dialog>
+</div>
