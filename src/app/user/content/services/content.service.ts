@@ -23,6 +23,10 @@ export class ContentService {
     return this.http.put<void>(`${this.baseUrl}/${id}`, content);
   }
 
+  updateImportantStatus(id: number, isImportant: boolean): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}/important?isImportant=${isImportant}`, {});
+  }
+
   get(id: number): Observable<Content> {
     return this.http.get<Content>(this.baseUrl+'/'+id);
   }
@@ -30,6 +34,14 @@ export class ContentService {
   searchContent(criteria: string, page: number, pageSize: number): Observable<PageReponse<Content>> {
     return this.http.get<PageReponse<Content>>(`${this.baseUrl}?criteria=${criteria}&page=${page}&size=${pageSize}`)
       .pipe(map((response: any) => new PageReponse<Content>(response.content, response.totalElements)));
+  }
+
+  getMostRecentContent(): Observable<Content[]> {
+    return this.http.get<Content[]>(`${this.baseUrl}/most-recent`);
+  }
+
+  getImportantContent(): Observable<Content[]> {
+    return this.http.get<Content[]>(`${this.baseUrl}/important`);
   }
 
   getContenidosTree(): Observable<ContentTree[]> {

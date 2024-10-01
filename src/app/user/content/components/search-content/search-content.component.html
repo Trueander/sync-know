@@ -48,7 +48,7 @@
         <small class="">Creado por <a class="cursor-pointer text-primary" >{{item.user.firstname + ' ' + item.user.lastname}}</a> el {{item.createdAt | date: 'dd/MM/yyyy'}}</small>
       </div>
       <div class="d-flex justify-content-center align-items-center margin-left-auto">
-        <a [routerLink]="['/contenido', item.id]" target="_blank"  class="text-primary text-decoration-none">
+        <a [routerLink]="['/contenido', item.id]" target="_blank" (click)="addRecentSearch(item)" class="text-primary text-decoration-none">
           <i class="pi pi-external-link font-w-600"></i>
         </a>
         <a *ngIf="isDelete" class="m-left-10 cursor-pointer" (click)="deleteRecentSearch(item.id)">

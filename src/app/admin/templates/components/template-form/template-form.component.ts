@@ -86,7 +86,7 @@ export class TemplateFormComponent implements OnInit {
 
       observable.pipe(
         tap(() => successAlert(`Plantilla ${this.templateId ? 'creada' : 'editada'} con éxito`)),
-        switchMap(() => this.router.navigate(['/admin/templates']))
+        switchMap(() => this.router.navigate(['/admin/plantillas']))
       ).subscribe();
 
     } else {

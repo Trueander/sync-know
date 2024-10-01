@@ -3,11 +3,17 @@
     <div class="d-flex justify-content-space-btw align-items-end">
       <h1 class="m-bottom-0">{{content.title}}</h1>
       <div class="d-flex gap-10">
+        <p-button
+          [icon]="isFavoriteForCurrentUser ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"
+          [rounded]="true"
+          [text]="true"
+          [raised]="true" severity="warning" (click)="updateFavoriteStatus()"/>
         <p-button label="Editar" [outlined]="true" severity="info" (click)="goToEditContent()"/>
         <p-button label="Crear" [outlined]="true" (click)="goToFormWithParentId()"/>
       </div>
     </div>
     <small class="font-w-500 p-text-secondary">Creado por <span class="font-w-500 text-primary">{{content.user.firstname + ' ' + content.user.lastname}}</span> el {{content.createdAt | date: 'd \'de\' MMMM \'de\' y, H:mm:ss'}}</small>
+    <i class="pi pi-star-fill m-left-5 text-warning" pTooltip="Importante" tooltipPosition="top" *ngIf="content.isImportant"></i>
     <p-divider />
     <div [innerHTML]="safeHtml"></div>
   </ng-container>

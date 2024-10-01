@@ -1,0 +1,62 @@
+<div class="dashboard">
+  <h2 class="text-dark">Página principal</h2>
+  <div class="dashboard-content">
+    <div class="card">
+      <div class="d-flex justify-content-space-btw">
+        <span class="d-flex align-items-center">Más recientes <i class="pi pi-inbox m-left-5"></i></span>
+        <i class="pi pi-sync cursor-pointer" (click)="updateMostRecentContent()" tooltipPosition="top"  pTooltip="Actualizar"></i>
+      </div>
+      <div class="card-content ">
+        <div class="card-item" *ngFor="let item of mostRecentContent$ | async">
+          <i class="pi pi-star-fill icon-important" pTooltip="Importante" tooltipPosition="top" *ngIf="item.isImportant"></i>
+          <div class="d-flex align-items-center gap-15">
+            <p-avatar
+              icon="pi pi-user"
+              pBadge
+              [value]="item.user.firstname[0]+item.user.lastname[0]"
+              [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" />
+            <div class="text-title">
+              <a [routerLink]="['contenido', item.id]" class="text-primary text-decoration-none">{{item.title}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="d-flex justify-content-space-btw">
+        <span class="d-flex align-items-center">Contenido importante <i class="pi pi-star text-warning m-left-5"></i></span>
+        <i class="pi pi-sync cursor-pointer" (click)="updateImportantContent()" pTooltip="Actualizar"></i>
+      </div>
+      <div class="card-content">
+        <div class="card-item-important" *ngFor="let item of importantContent$ | async">
+          <div class="d-flex align-items-center gap-15">
+            <p-avatar
+              icon="pi pi-star"
+              [style]="{ 'background-color': 'var(--orange-100)', color: 'var(--orange-500)' }" />
+            <div class="text-title">
+              <a [routerLink]="['contenido', item.id]" class="text-dark text-decoration-none">{{item.title}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="d-flex justify-content-space-btw">
+        <span class="d-flex align-items-center">Favoritos <i class="pi pi-bookmark text-warning m-left-5"></i></span>
+        <i class="pi pi-sync cursor-pointer" (click)="updateFavoritesByUser()" pTooltip="Actualizar" tooltipPosition="top"></i>
+      </div>
+      <div class="card-content">
+        <div class="card-item-important" *ngFor="let item of favoriteByUser$ | async">
+          <div class="d-flex align-items-center gap-15">
+            <p-avatar
+              icon="pi pi-bookmark"
+              [style]="{ 'background-color': 'var(--orange-100)', color: 'var(--orange-500)' }" />
+            <div class="text-title">
+              <a [routerLink]="['contenido', item.id]" class="text-dark text-decoration-none">{{item.title}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
