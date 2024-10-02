@@ -36,13 +36,12 @@
           <td>{{ content.title }}</td>
           <td>{{ content.createdAt | date: 'dd/MM/yyyy' }}</td>
           <td>{{ content.user.firstname + ' ' + content.user.lastname }}</td>
-          <td class="d-flex gap-5">
-            <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="primary" (click)="showContent(content.id)"/>
-            <p-button
-              (click)="updateImportantStatus(content)"
-              [icon]="content.isImportant ? 'pi pi-star-fill' : 'pi pi-star'"
-              [rounded]="true"
-              [text]="true" severity="warning" [pTooltip]="content.isImportant ? 'Remover importante' : 'Marcar importante'" tooltipPosition="top"/>
+          <td>
+            <i class="pi pi-eye text-primary cursor-pointer m-right-10" (click)="showContent(content.id)" pTooltip="Visualizar" tooltipPosition="top"></i>
+            <i [ngClass]="content.isImportant ? 'pi pi-star-fill' : 'pi pi-star'"
+               class="text-warning cursor-pointer"
+               [pTooltip]="content.isImportant ? 'Remover importante' : 'Marcar importante'"
+               tooltipPosition="top" (click)="updateImportantStatus(content)"></i>
           </td>
         </tr>
       </ng-template>

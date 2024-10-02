@@ -5,11 +5,13 @@ import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {DividerModule} from "primeng/divider";
 import {ContentService} from "../content/services/content.service";
-import {Observable} from "rxjs";
+import {Observable, tap} from "rxjs";
 import {AvatarModule} from "primeng/avatar";
 import {BadgeModule} from "primeng/badge";
 import {TooltipModule} from "primeng/tooltip";
 import {UserService} from "../../admin/users/services/user.service";
+import {successAlert} from "../../shared/utils/alert-messages.utils";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-dashboard',
@@ -31,7 +33,7 @@ import {UserService} from "../../admin/users/services/user.service";
 export class DashboardComponent implements OnInit{
   mostRecentContent$!: Observable<Content[]>;
   importantContent$!: Observable<Content[]>;
-  favoriteByUser$!: Observable<Content[]>;
+  favoriteByUser: Content[] = [];
   constructor(private service: RecentSearchService,
               private contentService: ContentService,
               private userService: UserService) {
@@ -52,7 +54,11 @@ export class DashboardComponent implements OnInit{
   }
 
   private loadFavoritesByUser(): void {
-    this.favoriteByUser$ = this.userService.getFavoriteContentByUser();
+    this.userService.getFavoriteContentByUser()
+      .pipe(
+        tap(response => this.favoriteByUser = response)
+      )
+      .subscribe();
   }
 
   updateImportantContent(): void {
@@ -65,5 +71,29 @@ export class DashboardComponent implements OnInit{
 
   updateFavoritesByUser(): void {
     this.loadFavoritesByUser();
+  }
+
+  removeFavoriteContent(contentId: number): void {
+    Swal.fire({
+      title: `¿Está seguro de remover de favoritos?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3B82F6",
+      cancelButtonColor: "#64748b",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        this.userService.removeFavoriteContent(contentId)
+          .pipe(
+            tap(() => {
+              successAlert("Contenido removido de favoritos");
+              this.favoriteByUser = this.favoriteByUser.filter(item => item.id !== contentId);
+            })
+          )
+          .subscribe();
+      }
+    });
   }
 }

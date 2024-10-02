@@ -11,7 +11,10 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): boolean | UrlTree {
     const roles = this.tokenService.getRoles();
-    let route = roles.includes('ADMIN') ? '/admin' : '/';
-    return this.router.createUrlTree([route]);
+    if (roles.includes('ADMIN')) {
+      return true;
+    } else {
+      return this.router.createUrlTree(['/']);
+    }
   }
 }

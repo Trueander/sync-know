@@ -101,7 +101,7 @@ export class UserFormComponent implements OnInit {
   }
 
   private onRegisterSuccess = (): void => {
-    successAlert(`User ${this.userId ? 'updated':'created'} successfully`);
+    successAlert(`Usuario ${this.userId ? 'actualizado':'creado'} satisfactoriamente`);
     this.router.navigate(['/admin/usuarios']);
   }
 

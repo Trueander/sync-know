@@ -33,7 +33,13 @@
     <div class="navigation">
       <h4 class="p-text-secondary m-left-10 m-bottom-5">Navegación</h4>
       <p-divider styleClass="my-10"/>
-      <p-tree [value]="treeData" selectionMode="single" (onNodeSelect)="nodeSelect($event)"/>
+      @if(treeData.length) {
+        <p-tree [value]="treeData"
+                selectionMode="single"
+                (onNodeSelect)="nodeSelect($event)" />
+      } @else {
+        <span class="p-text-secondary">No existen contenidos registrados</span>
+      }
     </div>
     <div class="content">
       <router-outlet></router-outlet>

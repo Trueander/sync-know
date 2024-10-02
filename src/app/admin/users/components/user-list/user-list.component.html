@@ -39,9 +39,10 @@
         <td>{{ user.email }}</td>
         <td>{{ user.team ? user.team.name : 'SIN ASIGNAR' }}</td>
         <td>{{ mapRolesName(user.roles) }}</td>
-        <td class="d-flex">
-          <p-button icon="pi pi-pen-to-square"  [rounded]="true" [text]="true" severity="primary" [routerLink]="['actualizar', user.id]"/>
-          <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (click)="eliminarUsuario(user.id)"/>
+        <td>
+          <a class="m-right-10" [routerLink]="['actualizar', user.id]">
+            <i class="pi pi-pen-to-square text-primary" pTooltip="Editar" tooltipPosition="top"></i>
+          </a>
         </td>
       </tr>
     </ng-template>

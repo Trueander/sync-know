@@ -41,9 +41,11 @@
           <td>{{ template.createdAt | date: 'dd-MM-yyyy' }}</td>
           <td>{{ template.updatedAt ? (template.updatedAt | date: 'dd-MM-yyyy') : '' }}</td>
           <td>{{ template.user.firstname + ' ' + template.user.lastname }}</td>
-          <td class="d-flex">
-            <p-button icon="pi pi-pen-to-square" [rounded]="true" [text]="true" severity="primary" [routerLink]="['actualizar', template.id]" />
-            <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (click)="deleteTemplate(template.id)" />
+          <td>
+            <a class="m-right-10" [routerLink]="['actualizar', template.id]">
+              <i class="pi pi-pen-to-square text-primary" pTooltip="Editar" tooltipPosition="top"></i>
+            </a>
+            <i class="pi pi-trash text-danger cursor-pointer" pTooltip="Eliminar" tooltipPosition="top" (click)="deleteTemplate(template.id)"></i>
           </td>
         </tr>
       </ng-template>

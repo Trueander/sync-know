@@ -14,22 +14,24 @@ import {InputIconModule} from "primeng/inputicon";
 import {InputTextModule} from "primeng/inputtext";
 import Swal from "sweetalert2";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {TooltipModule} from "primeng/tooltip";
 
 @Component({
   selector: 'app-teams-list',
   standalone: true,
-  imports: [
-    TableModule,
-    Button,
-    NgIf,
-    AsyncPipe,
-    RouterLink,
-    ToastModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        TableModule,
+        Button,
+        NgIf,
+        AsyncPipe,
+        RouterLink,
+        ToastModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        ReactiveFormsModule,
+        TooltipModule
+    ],
   templateUrl: './teams-list.component.html',
   styleUrl: './teams-list.component.scss'
 })

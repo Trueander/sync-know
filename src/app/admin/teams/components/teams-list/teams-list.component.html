@@ -35,9 +35,11 @@
         <tr>
           <td>{{ team.id }}</td>
           <td>{{ team.name }}</td>
-          <td class="d-flex">
-            <p-button icon="pi pi-pen-to-square" [rounded]="true" [text]="true" severity="primary" [routerLink]="['actualizar', team.id]" />
-            <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (click)="deleteTeam(team.id)" />
+          <td>
+            <a class="m-right-10" [routerLink]="['actualizar', team.id]">
+              <i class="pi pi-pen-to-square text-primary" pTooltip="Editar" tooltipPosition="top"></i>
+            </a>
+            <i class="pi pi-trash text-danger cursor-pointer" pTooltip="Eliminar" tooltipPosition="top" (click)="deleteTeam(team.id)"></i>
           </td>
         </tr>
       </ng-template>

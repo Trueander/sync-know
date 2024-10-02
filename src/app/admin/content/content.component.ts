@@ -10,7 +10,7 @@ import {Content} from "../../user/content/models/content";
 import {ContentService} from "../../user/content/services/content.service";
 import {debounceTime, distinctUntilChanged, filter, tap} from "rxjs";
 import {PageReponse} from "../../shared/models/page-reponse";
-import {DatePipe, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgIf} from "@angular/common";
 import {successAlert} from "../../shared/utils/alert-messages.utils";
 import {DialogModule} from "primeng/dialog";
 import {TooltipModule} from "primeng/tooltip";
@@ -29,7 +29,8 @@ import {TooltipModule} from "primeng/tooltip";
     DatePipe,
     DialogModule,
     NgIf,
-    TooltipModule
+    TooltipModule,
+    NgClass
   ],
   templateUrl: './content.component.html',
   styleUrl: './content.component.scss'

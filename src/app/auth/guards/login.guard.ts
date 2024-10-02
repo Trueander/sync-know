@@ -15,7 +15,7 @@ export class LoginGuard implements CanActivate {
     }
 
     const roles = this.tokenService.getRoles();
-    let route = roles.includes('ADMIN') ? '/admin' : '/';
+    let route = roles.includes('ADMIN') ? '/admin/equipos' : '/';
     return this.router.createUrlTree([route])
   }
 }

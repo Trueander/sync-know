@@ -17,17 +17,24 @@
     <div class="d-flex flex-column">
       <label class="my-10">Seleccionar plantilla</label>
       <div class="d-flex flex-column">
-        <div class="template-items">
-          <ng-container *ngFor="let item of templates$ | async">
-            <div class="card" (click)="selectTemplate(item)" [class.active]="selectedTemplate && selectedTemplate.id === item.id">
-              <div class="d-flex gap-5">
-                <i class="pi pi-file-edit"></i>
-                {{item.title}}
-              </div>
-              <i class="pi pi-eye show-icon" (click)="showTemplate(item, $event)"></i>
+        <ng-container *ngIf="templates$ | async as templates">
+          @if (templates.length) {
+            <div class="template-items">
+              @for(item of templates; track item.id) {
+                <div class="card" (click)="selectTemplate(item)" [class.active]="selectedTemplate && selectedTemplate.id === item.id">
+                  <div class="d-flex gap-5">
+                    <i class="pi pi-file-edit"></i>
+                    {{item.title}}
+                  </div>
+                  <i class="pi pi-eye show-icon" (click)="showTemplate(item, $event)"></i>
+                </div>
+              }
             </div>
-          </ng-container>
-        </div>
+          } @else {
+            <span>No existen plantillas, solicita una para tu equipo.</span>
+          }
+        </ng-container>
+
       </div>
     </div>
     <div class="m-top-20 d-flex justify-content-flex-end gap-10">

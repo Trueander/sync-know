@@ -6,20 +6,27 @@
         <span class="d-flex align-items-center">Más recientes <i class="pi pi-inbox m-left-5"></i></span>
         <i class="pi pi-sync cursor-pointer" (click)="updateMostRecentContent()" tooltipPosition="top"  pTooltip="Actualizar"></i>
       </div>
-      <div class="card-content ">
-        <div class="card-item" *ngFor="let item of mostRecentContent$ | async">
-          <i class="pi pi-star-fill icon-important" pTooltip="Importante" tooltipPosition="top" *ngIf="item.isImportant"></i>
-          <div class="d-flex align-items-center gap-15">
-            <p-avatar
-              icon="pi pi-user"
-              pBadge
-              [value]="item.user.firstname[0]+item.user.lastname[0]"
-              [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" />
-            <div class="text-title">
-              <a [routerLink]="['contenido', item.id]" class="text-primary text-decoration-none">{{item.title}}</a>
+      <div class="card-content" *ngIf="mostRecentContent$ | async as mostRecentContet">
+        @if (mostRecentContet.length) {
+          @for (item of mostRecentContet; track item.id) {
+            <div class="card-item">
+              <i class="pi pi-star-fill icon-important text-warning" pTooltip="Importante" tooltipPosition="top" *ngIf="item.isImportant"></i>
+              <div class="d-flex align-items-center gap-15">
+                <p-avatar
+                  icon="pi pi-user"
+                  pBadge
+                  [value]="item.user.firstname[0]+item.user.lastname[0]"
+                  [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" />
+                <div class="text-title">
+                  <a [routerLink]="['contenido', item.id]" class="text-primary text-decoration-none">{{item.title}}</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          }
+
+        } @else {
+          <span>No se encontraron resultados</span>
+        }
       </div>
     </div>
     <div class="card">
@@ -27,17 +34,24 @@
         <span class="d-flex align-items-center">Contenido importante <i class="pi pi-star text-warning m-left-5"></i></span>
         <i class="pi pi-sync cursor-pointer" (click)="updateImportantContent()" pTooltip="Actualizar"></i>
       </div>
-      <div class="card-content">
-        <div class="card-item-important" *ngFor="let item of importantContent$ | async">
-          <div class="d-flex align-items-center gap-15">
-            <p-avatar
-              icon="pi pi-star"
-              [style]="{ 'background-color': 'var(--orange-100)', color: 'var(--orange-500)' }" />
-            <div class="text-title">
-              <a [routerLink]="['contenido', item.id]" class="text-dark text-decoration-none">{{item.title}}</a>
+      <div class="card-content" *ngIf="importantContent$ | async as importantContent">
+        @if(importantContent.length) {
+          @for (item of importantContent; track item.id) {
+            <div class="card-item-important">
+              <div class="d-flex align-items-center gap-15">
+                <p-avatar
+                  icon="pi pi-star"
+                  [style]="{ 'background-color': 'var(--orange-100)', color: 'var(--orange-500)' }" />
+                <div class="text-title">
+                  <a [routerLink]="['contenido', item.id]" class="text-dark text-decoration-none">{{item.title}}</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          }
+        } @else {
+          <span>No se encontraron resultados</span>
+        }
+
       </div>
     </div>
     <div class="card">
@@ -46,16 +60,24 @@
         <i class="pi pi-sync cursor-pointer" (click)="updateFavoritesByUser()" pTooltip="Actualizar" tooltipPosition="top"></i>
       </div>
       <div class="card-content">
-        <div class="card-item-important" *ngFor="let item of favoriteByUser$ | async">
-          <div class="d-flex align-items-center gap-15">
-            <p-avatar
-              icon="pi pi-bookmark"
-              [style]="{ 'background-color': 'var(--orange-100)', color: 'var(--orange-500)' }" />
-            <div class="text-title">
-              <a [routerLink]="['contenido', item.id]" class="text-dark text-decoration-none">{{item.title}}</a>
+        @if (favoriteByUser.length) {
+          @for (item of favoriteByUser; track item.id) {
+            <div class="card-item-important">
+              <i class="pi pi-trash font-w-600 icon-important text-danger cursor-pointer"
+                 pTooltip="Remover" tooltipPosition="top" (click)="removeFavoriteContent(item.id)"></i>
+              <div class="d-flex align-items-center gap-15">
+                <p-avatar
+                  icon="pi pi-bookmark"
+                  [style]="{ 'background-color': 'var(--orange-100)', color: 'var(--orange-500)' }" />
+                <div class="text-title">
+                  <a [routerLink]="['contenido', item.id]" class="text-dark text-decoration-none">{{item.title}}</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          }
+        } @else {
+          <span>No tiene ningún contenido favorito</span>
+        }
       </div>
     </div>
   </div>

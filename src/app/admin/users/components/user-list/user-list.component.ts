@@ -14,23 +14,25 @@ import {IconFieldModule} from "primeng/iconfield";
 import {InputIconModule} from "primeng/inputicon";
 import {InputTextModule} from "primeng/inputtext";
 import {Role} from "../../../../shared/models/role";
+import {TooltipModule} from "primeng/tooltip";
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [
-    PrimeTemplate,
-    TableModule,
-    Button,
-    AsyncPipe,
-    NgIf,
-    RouterLink,
-    ToastModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        PrimeTemplate,
+        TableModule,
+        Button,
+        AsyncPipe,
+        NgIf,
+        RouterLink,
+        ToastModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        ReactiveFormsModule,
+        TooltipModule
+    ],
   providers:[MessageService],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
@@ -71,14 +73,6 @@ export class UserListComponent implements OnInit{
 
   mapRolesName(roles: Role[]): string {
     return roles.map(role => role.name).join(', ');
-  }
-
-  eliminarUsuario(idUsuario: number): void {
-    this.userService.deleteUserById(idUsuario)
-      .subscribe(response => {
-        this.messageService.add({ severity: 'success', summary: 'Eliminado', detail: 'Usuario eliminado con éxito' });
-        this.searchUsers();
-    })
   }
 
   private loadPagination = (response: PageReponse<User>): void => {

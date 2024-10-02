@@ -4,7 +4,7 @@ import {QuillEditorComponent} from "ngx-quill";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {ActivatedRoute, ParamMap, Router, RouterLink} from "@angular/router";
-import {filter, map, switchMap, tap} from "rxjs";
+import {catchError, EMPTY, filter, map, switchMap, tap} from "rxjs";
 import {InputTextModule} from "primeng/inputtext";
 import {ContentService} from "../../services/content.service";
 import {Button} from "primeng/button";
@@ -17,7 +17,7 @@ import {PreContentModalService} from "../../services/pre-content-modal.service";
 import {DialogService} from "primeng/dynamicdialog";
 import {UserService} from "../../../../admin/users/services/user.service";
 import {TooltipModule} from "primeng/tooltip";
-import {successAlert} from "../../../../shared/utils/alert-messages.utils";
+import {errorAlert, successAlert} from "../../../../shared/utils/alert-messages.utils";
 
 registerLocaleData(localeEs, 'es');
 
@@ -124,6 +124,11 @@ export class ContentFormComponent implements OnInit{
         map(this.mapResourceId),
         filter(resourceId => !!resourceId),
         switchMap(id => this.contentService.get(id)),
+        catchError(error => {
+          if(error.status === 409) errorAlert(error.error.message);
+          this.router.navigate(['/']);
+          return EMPTY
+        }),
         tap(this.preloadData),
         switchMap(() => this.activatedRoute.queryParams),
         tap(queryParams => {

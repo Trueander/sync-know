@@ -14,21 +14,23 @@ import {InputTextModule} from "primeng/inputtext";
 import {PrimeTemplate} from "primeng/api";
 import {RouterLink} from "@angular/router";
 import {DatePipe} from "@angular/common";
+import {TooltipModule} from "primeng/tooltip";
 
 @Component({
   selector: 'app-templates-list',
   standalone: true,
-  imports: [
-    Button,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    PrimeTemplate,
-    ReactiveFormsModule,
-    TableModule,
-    RouterLink,
-    DatePipe
-  ],
+    imports: [
+        Button,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        PrimeTemplate,
+        ReactiveFormsModule,
+        TableModule,
+        RouterLink,
+        DatePipe,
+        TooltipModule
+    ],
   templateUrl: './templates-list.component.html',
   styleUrl: './templates-list.component.scss'
 })
