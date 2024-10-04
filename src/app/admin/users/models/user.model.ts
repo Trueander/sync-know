@@ -7,7 +7,7 @@ export class User {
               public lastname: string,
               public email: string,
               public team: Team,
-              public roles: Role[]
-              ) {
+              public roles: Role[],
+              public createdAt: Date) {
   }
 }

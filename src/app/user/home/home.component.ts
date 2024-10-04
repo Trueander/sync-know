@@ -69,8 +69,9 @@ export class HomeComponent implements OnInit, OnDestroy{
 
     this.items = [
       {
-        label: 'Configuración',
-        icon: 'pi pi-cog'
+        label: 'Perfil',
+        icon: 'pi pi-user',
+        routerLink: '/perfil'
       },
       {
         label: 'Cerrar sesión',

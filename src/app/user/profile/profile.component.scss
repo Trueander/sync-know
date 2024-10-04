@@ -1,0 +1,33 @@
+.profile-container {
+  width: 100%;
+
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 50%;
+    gap: 30px;
+
+  }
+
+  .user-content {
+    max-height: 300px;
+    overflow: auto;
+  }
+
+  .info {
+    display: flex;
+    gap: 20px;
+    align-self: start;
+  }
+
+  .content, .info {
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .text-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

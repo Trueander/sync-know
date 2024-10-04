@@ -12,6 +12,14 @@ export const USER_ROUTES: Routes = [
       {
         path: 'contenido',
         loadChildren: () => import('./content/content.routes').then(m => m.CONTENT_ROUTES)
+      },
+      {
+        path: 'perfil',
+        loadComponent: () => import('./profile/profile.component').then(c => c.ProfileComponent)
+      },
+      {
+        path: 'perfil/:userId',
+        loadComponent: () => import('./profile/profile.component').then(c => c.ProfileComponent)
       }
     ]
   },

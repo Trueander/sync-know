@@ -1,0 +1,73 @@
+<div class="profile-container">
+
+  <div class="content">
+    <div class="info">
+      <p-avatar
+        icon="pi pi-user"
+        styleClass="mr-2 text-primary" shape="circle" size="xlarge" />
+      <div class="d-flex flex-column" *ngIf="user">
+        <h2>{{user.firstname + ' ' + user.lastname}}</h2>
+        <p-tag severity="contrast" [value]="user.team.name"/>
+        <p-divider/>
+        <span><span class="font-w-500">Correo:</span> {{user.email}}</span>
+        <p-divider/>
+        <span><span class="font-w-500">Fecha de registro:</span> {{user.createdAt | date: 'dd/MM/yyyy'}}</span>
+        <p-divider/>
+      </div>
+    </div>
+    <div class="d-flex flex-column gap-20">
+      <p-panel [toggleable]="true" [collapsed]="true" (collapsedChange)="loadContentCreatedByUser($event)">
+        <ng-template pTemplate="header">
+          <div class="d-flex align-items-center gap-15">
+            <p-avatar
+              icon="pi pi-folder"
+              size="large"
+              shape="circle" [style]="{ 'background-color': 'var(--blue-600)', color: '#fff' }"/>
+            <span class="font-w-600 font-size-lg">Lista de contenido creado</span>
+          </div>
+        </ng-template>
+        <div>
+          <span class="p-input-icon-left w-100 m-bottom-10">
+            <i class="pi pi-search"></i>
+            <input class="w-100" pInputText placeholder="Buscar" [formControl]="filterOwnContentFC" />
+          </span>
+          <div class="user-content p-right-10">
+            <div class="d-flex flex-column gap-5" *ngIf="contentCreatedByUser">
+              @for (content of contentCreatedByUserFilter; track content.id) {
+                <span class="text-title">
+                <a class="text-decoration-none text-primary font-w-500" [routerLink]="['/contenido', content.id]">- {{content.title}}</a>
+            </span>
+              }
+              <span *ngIf="contentCreatedByUser && !contentCreatedByUser.length">
+                No hay registros
+              </span>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+      <p-panel [toggleable]="true" [collapsed]="true" (collapsedChange)="loadFavoriteContent($event)" *ngIf="!userId">
+        <ng-template pTemplate="header">
+          <div class="d-flex align-items-center gap-15">
+            <p-avatar
+              icon="pi pi-star"
+              size="large"
+              shape="circle" [style]="{ 'background-color': 'var(--orange-500)', color: '#fff' }"/>
+            <span class="font-w-600 font-size-lg">Contenido favorito</span>
+          </div>
+        </ng-template>
+        <div class="user-content p-right-10">
+          <div class="d-flex flex-column gap-5" *ngIf="favoriteContent">
+            @for (content of favoriteContent; track content.id) {
+              <span class="text-title">
+                <a class="text-decoration-none text-primary font-w-500" [routerLink]="['/contenido', content.id]">- {{content.title}}</a>
+              </span>
+            }
+            <span *ngIf="favoriteContent && !favoriteContent.length">
+              No hay registros
+            </span>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+</div>

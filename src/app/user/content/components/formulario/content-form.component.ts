@@ -2,7 +2,7 @@ import {Component, LOCALE_ID, OnInit} from '@angular/core';
 import {AsyncPipe, DatePipe, NgIf, NgTemplateOutlet, registerLocaleData} from "@angular/common";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, ParamMap, Router, RouterLink} from "@angular/router";
-import {catchError, EMPTY, filter, map, observable, switchMap, tap} from "rxjs";
+import {catchError, EMPTY, filter, map, switchMap, tap} from "rxjs";
 import {InputTextModule} from "primeng/inputtext";
 import {ContentService} from "../../services/content.service";
 import {Button} from "primeng/button";
@@ -89,7 +89,9 @@ export class ContentFormComponent implements OnInit{
       this.contentService.updateContent(this.resourceId, this.form.value)
         .pipe(
           switchMap(() => this.router.navigate(['contenido', this.resourceId])),
-          tap(() => this.syncContentService.sync())
+          tap(() => this.syncContentService.sync()),
+          switchMap(() => this.contentService.get(this.resourceId)),
+          tap(this.preloadData)
         )
         .subscribe();
     } else {

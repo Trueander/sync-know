@@ -25,6 +25,10 @@ export class UserService {
     return this.http.get<User>(`${this.baseUrl}/${userId}`);
   }
 
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/current`);
+  }
+
   createUser(user: UserRequest): Observable<void> {
     return this.http.post<void>(`${this.baseUrlCreate}`, user);
   }
@@ -43,6 +47,10 @@ export class UserService {
 
   getFavoriteContentByUser(): Observable<Content[]> {
     return this.http.get<Content[]>(`${this.baseUrl}/favorite-content`);
+  }
+
+  getContentCreatedByUser(userId: number | null): Observable<Content[]> {
+    return this.http.get<Content[]>(`${this.baseUrl}/content?userId=${userId}`);
   }
 
   addFavoriteContent(contentId: number): Observable<void> {
