@@ -47,8 +47,8 @@
       </ng-template>
     </p-table>
   </div>
-  <p-dialog *ngIf="contentToShow"
-            [header]="contentToShow.title"
+  <p-dialog *ngIf="toggleModal"
+            [header]="titleModal"
             [modal]="true"
             [draggable]="false"
             [(visible)]="toggleModal"
@@ -57,6 +57,6 @@
               '640px': '90vw'
             }"
             [style]="{ width: '60rem' }">
-    <div [innerHTML]="contentToShow.htmlContent"></div>
+    <app-ckeditor [htmlContent]="htmlContentFC"></app-ckeditor>
   </p-dialog>
 </div>

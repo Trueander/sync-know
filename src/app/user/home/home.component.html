@@ -36,6 +36,7 @@
       @if(treeData.length) {
         <p-tree [value]="treeData"
                 selectionMode="single"
+                [styleClass]="'font-size-sm font-w-500'"
                 (onNodeSelect)="nodeSelect($event)" />
       } @else {
         <span class="p-text-secondary">No existen contenidos registrados</span>

@@ -1,10 +1,8 @@
 import {Component, LOCALE_ID, OnInit} from '@angular/core';
-import {AsyncPipe, DatePipe, NgIf, registerLocaleData} from "@angular/common";
-import {QuillEditorComponent} from "ngx-quill";
+import {AsyncPipe, DatePipe, NgIf, NgTemplateOutlet, registerLocaleData} from "@angular/common";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {ActivatedRoute, ParamMap, Router, RouterLink} from "@angular/router";
-import {catchError, EMPTY, filter, map, switchMap, tap} from "rxjs";
+import {catchError, EMPTY, filter, map, observable, switchMap, tap} from "rxjs";
 import {InputTextModule} from "primeng/inputtext";
 import {ContentService} from "../../services/content.service";
 import {Button} from "primeng/button";
@@ -18,6 +16,7 @@ import {DialogService} from "primeng/dynamicdialog";
 import {UserService} from "../../../../admin/users/services/user.service";
 import {TooltipModule} from "primeng/tooltip";
 import {errorAlert, successAlert} from "../../../../shared/utils/alert-messages.utils";
+import {CkeditorComponent} from "../../../../shared/components/ckeditor/ckeditor.component";
 
 registerLocaleData(localeEs, 'es');
 
@@ -26,7 +25,6 @@ registerLocaleData(localeEs, 'es');
   standalone: true,
   imports: [
     NgIf,
-    QuillEditorComponent,
     ReactiveFormsModule,
     InputTextModule,
     Button,
@@ -35,7 +33,9 @@ registerLocaleData(localeEs, 'es');
     DatePipe,
     RouterLink,
     DialogModule,
-    TooltipModule
+    TooltipModule,
+    CkeditorComponent,
+    NgTemplateOutlet
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },
@@ -47,7 +47,6 @@ registerLocaleData(localeEs, 'es');
 })
 export class ContentFormComponent implements OnInit{
   form!: FormGroup;
-  safeHtml!: SafeHtml;
   resourceId!: number;
   parentId!: number;
   content!: Content;
@@ -57,7 +56,6 @@ export class ContentFormComponent implements OnInit{
   constructor(private contentService: ContentService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
-              private sanitizer: DomSanitizer,
               private syncContentService: ContentSyncService,
               private modal: PreContentModalService,
               private userService: UserService) {
@@ -100,6 +98,7 @@ export class ContentFormComponent implements OnInit{
   }
 
   goBackToDetail(): void {
+    this.htmlContentFC.setValue(this.content.htmlContent);
     this.router.navigate(['contenido', this.resourceId]);
   }
 
@@ -166,6 +165,10 @@ export class ContentFormComponent implements OnInit{
 
   private preloadData = (resource: Content): void => {
     this.content = resource;
-    this.safeHtml = this.sanitizer.bypassSecurityTrustHtml(resource.htmlContent);
+    this.htmlContentFC.setValue(resource.htmlContent);
+  }
+
+  get htmlContentFC(): FormControl {
+    return this.form.get('htmlContent') as FormControl;
   }
 }

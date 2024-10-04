@@ -15,10 +15,10 @@ import {ContentService} from "../../services/content.service";
 import {ContentSyncService} from "../../../../shared/services/content-sync.service";
 import {TemplateService} from "../../../../admin/templates/services/template.service";
 import {Template} from "../../../../admin/templates/models/template";
-import {PageReponse} from "../../../../shared/models/page-reponse";
 import {CardModule} from "primeng/card";
 import {DividerModule} from "primeng/divider";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {CkeditorComponent} from "../../../../shared/components/ckeditor/ckeditor.component";
 
 @Component({
   selector: 'app-pre-content-form',
@@ -35,7 +35,8 @@ import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
     AsyncPipe,
     NgForOf,
     CardModule,
-    DividerModule
+    DividerModule,
+    CkeditorComponent
   ],
   templateUrl: './pre-content-form.component.html',
   styleUrl: './pre-content-form.component.scss'
@@ -49,7 +50,6 @@ export class PreContentFormComponent implements OnInit{
   templates$!: Observable<Template[]>;
   visible: boolean = false;
   selectedTemplate!: Template | undefined;
-  safeHtml!: SafeHtml;
   title: string ='';
 
   constructor(private config: DynamicDialogConfig,
@@ -57,8 +57,7 @@ export class PreContentFormComponent implements OnInit{
               private router: Router,
               private contentService: ContentService,
               private syncContentService: ContentSyncService,
-              private templateService: TemplateService,
-              private sanitizer: DomSanitizer) {
+              private templateService: TemplateService) {
     this.contentForm = new FormGroup({
       title: new FormControl(null, Validators.required),
       htmlContent: new FormControl(''),
@@ -114,7 +113,7 @@ export class PreContentFormComponent implements OnInit{
   showTemplate(template: Template, event: Event): void {
     event.stopPropagation();
     this.visible = true;
-    this.safeHtml = this.sanitizer.bypassSecurityTrustHtml(template.htmlContent);
+    this.htmlContentFC.setValue(template.htmlContent);
     this.title = template.title;
   }
 
@@ -129,5 +128,9 @@ export class PreContentFormComponent implements OnInit{
       this.contentForm.get('htmlContent')?.setValue(template.htmlContent);
       this.selectedTemplate = template;
     }
+  }
+
+  get htmlContentFC(): FormControl {
+    return this.contentForm.get('htmlContent') as FormControl;
   }
 }

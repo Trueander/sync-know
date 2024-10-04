@@ -13,6 +13,7 @@ import {TemplateService} from "../../services/template.service";
 import {ActivatedRoute, ParamMap, Router, RouterLink} from "@angular/router";
 import {successAlert} from "../../../../shared/utils/alert-messages.utils";
 import {Template} from "../../models/template";
+import {CkeditorComponent} from "../../../../shared/components/ckeditor/ckeditor.component";
 
 @Component({
   selector: 'app-template-form',
@@ -27,7 +28,8 @@ import {Template} from "../../models/template";
     AsyncPipe,
     ChipModule,
     NgForOf,
-    RouterLink
+    RouterLink,
+    CkeditorComponent
   ],
   templateUrl: './template-form.component.html',
   styleUrl: './template-form.component.scss'
@@ -92,5 +94,9 @@ export class TemplateFormComponent implements OnInit {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  get htmlContentFC(): FormControl {
+    return this.form.get('htmlContent') as FormControl;
   }
 }

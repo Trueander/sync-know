@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {SpinnerService} from "../../services/spinner.service";
 import {AsyncPipe, NgIf} from "@angular/common";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-spinner',
@@ -14,14 +14,18 @@ import {Observable, Subscription} from "rxjs";
   styleUrl: './spinner.component.scss'
 })
 export class SpinnerComponent implements OnInit, OnDestroy {
-  isActive: boolean = false;
+  isActive!: boolean;
   subscription!: Subscription;
-  constructor(public spinnerService: SpinnerService) {}
+  constructor(public spinnerService: SpinnerService,
+              private cdref: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.subscription = this.spinnerService
       .isLoading$
-      .subscribe(item => this.isActive);
+      .subscribe(item => {
+        this.isActive = item
+        this.cdref.detectChanges();
+      });
   }
 
   ngOnDestroy() {

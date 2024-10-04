@@ -1,0 +1,3 @@
+<div class="ckeditor-container" [class.toolbar-cdk-visible]="!editable">
+  <ckeditor id="editor" [editor]="Editor" [formControl]="htmlContent"  [config]="config" *ngIf="isLayoutReady" />
+</div>

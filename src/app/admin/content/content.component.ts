@@ -14,24 +14,26 @@ import {DatePipe, NgClass, NgIf} from "@angular/common";
 import {successAlert} from "../../shared/utils/alert-messages.utils";
 import {DialogModule} from "primeng/dialog";
 import {TooltipModule} from "primeng/tooltip";
+import {CkeditorComponent} from "../../shared/components/ckeditor/ckeditor.component";
 
 @Component({
   selector: 'app-content',
   standalone: true,
-  imports: [
-    Button,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    PrimeTemplate,
-    ReactiveFormsModule,
-    TableModule,
-    DatePipe,
-    DialogModule,
-    NgIf,
-    TooltipModule,
-    NgClass
-  ],
+    imports: [
+        Button,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        PrimeTemplate,
+        ReactiveFormsModule,
+        TableModule,
+        DatePipe,
+        DialogModule,
+        NgIf,
+        TooltipModule,
+        NgClass,
+        CkeditorComponent
+    ],
   templateUrl: './content.component.html',
   styleUrl: './content.component.scss'
 })
@@ -41,11 +43,11 @@ export class ContentComponent implements OnInit {
   pageSize: number = 0;
   page: number = 0;
   searchFormControl: FormControl = new FormControl('');
-  contentToShow!: Content;
   toggleModal: boolean = false;
+  htmlContentFC: FormControl = new FormControl();
+  titleModal: string = '';
 
-  constructor(private contentService: ContentService) {
-  }
+  constructor(private contentService: ContentService) {}
 
   ngOnInit(): void {
     this.searchFormControl.valueChanges
@@ -87,10 +89,12 @@ export class ContentComponent implements OnInit {
   }
 
   showContent(contentId: number): void {
+    this.htmlContentFC.setValue(null);
     this.contentService.get(contentId)
       .pipe(
         tap(content => {
-          this.contentToShow = content;
+          this.htmlContentFC.setValue(content.htmlContent);
+          this.titleModal = content.title;
           this.toggleModal = true;
         })
       )
