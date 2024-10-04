@@ -8,7 +8,6 @@ import {AvatarModule} from "primeng/avatar";
 import {MenuModule} from "primeng/menu";
 import {BadgeModule} from "primeng/badge";
 import {DividerModule} from "primeng/divider";
-import {QuillConfigModule} from "./quill-config";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AsyncPipe, NgClass, NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
@@ -36,7 +35,6 @@ import {SearchContentModalService} from "../content/services/search-content-moda
     MenuModule,
     BadgeModule,
     DividerModule,
-    QuillConfigModule,
     ReactiveFormsModule,
     NgIf,
     Ripple,

@@ -43,6 +43,6 @@
     </div>
   </form>
   <p-dialog [header]="title" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '80rem' }">
-    <div [innerHTML]="safeHtml"></div>
+    <app-ckeditor [htmlContent]="htmlContentFC"></app-ckeditor>
   </p-dialog>
 </div>
