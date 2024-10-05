@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit{
           {
             label: 'Crear plantilla',
             icon: 'pi pi-plus',
-            routerLink: '/admin/templates/crear'
+            routerLink: '/admin/plantillas/crear'
           }
         ]
       },
