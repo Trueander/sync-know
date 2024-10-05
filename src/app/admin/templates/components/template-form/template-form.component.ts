@@ -3,7 +3,6 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {InputTextModule} from "primeng/inputtext";
 import {Button} from "primeng/button";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {QuillEditorComponent} from "ngx-quill";
 import {TeamService} from "../../../teams/services/team.service";
 import {filter, map, Observable, switchMap, tap} from "rxjs";
 import {Team} from "../../../teams/models/team.model";
@@ -23,7 +22,6 @@ import {CkeditorComponent} from "../../../../shared/components/ckeditor/ckeditor
     InputTextModule,
     Button,
     NgIf,
-    QuillEditorComponent,
     MultiSelectModule,
     AsyncPipe,
     ChipModule,
