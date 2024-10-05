@@ -17,7 +17,6 @@ import {TemplateService} from "../../../../admin/templates/services/template.ser
 import {Template} from "../../../../admin/templates/models/template";
 import {CardModule} from "primeng/card";
 import {DividerModule} from "primeng/divider";
-import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {CkeditorComponent} from "../../../../shared/components/ckeditor/ckeditor.component";
 
 @Component({
@@ -51,6 +50,7 @@ export class PreContentFormComponent implements OnInit{
   visible: boolean = false;
   selectedTemplate!: Template | undefined;
   title: string ='';
+  htmlContentFCAux: FormControl = new FormControl('');
 
   constructor(private config: DynamicDialogConfig,
               public dialogRef: DynamicDialogRef,
@@ -113,7 +113,7 @@ export class PreContentFormComponent implements OnInit{
   showTemplate(template: Template, event: Event): void {
     event.stopPropagation();
     this.visible = true;
-    this.htmlContentFC.setValue(template.htmlContent);
+    this.htmlContentFCAux.setValue(template.htmlContent);
     this.title = template.title;
   }
 
@@ -128,9 +128,7 @@ export class PreContentFormComponent implements OnInit{
       this.contentForm.get('htmlContent')?.setValue(template.htmlContent);
       this.selectedTemplate = template;
     }
-  }
 
-  get htmlContentFC(): FormControl {
-    return this.contentForm.get('htmlContent') as FormControl;
+    this.htmlContentFCAux.setValue(this.contentForm.get('htmlContent')?.value);
   }
 }

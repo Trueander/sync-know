@@ -1,8 +1,7 @@
 
 export class ContentRequest {
-  constructor(public titulo: string,
+  constructor(public title: string,
               public htmlContent: string,
-              public usuarioId: number,
               public parentId: number) {
   }
 }
