@@ -12,7 +12,7 @@
         <p-button label="Crear" [outlined]="true" (click)="goToFormWithParentId()"/>
       </div>
     </div>
-    <small class="font-w-500 p-text-secondary">Creado por <span class="font-w-500 text-primary">{{content.user.firstname + ' ' + content.user.lastname}}</span> el {{content.createdAt | date: 'd \'de\' MMMM \'de\' y, H:mm:ss'}}</small>
+    <small class="font-w-500 p-text-secondary">Creado por <a class="font-w-500 text-primary text-decoration-none" [routerLink]="['/perfil', content.user.id]">{{content.user.firstname + ' ' + content.user.lastname}}</a> el {{content.createdAt | date: 'd \'de\' MMMM \'de\' y, H:mm:ss'}}</small>
     <i class="pi pi-star-fill m-left-5 text-warning" pTooltip="Importante" tooltipPosition="top" *ngIf="content.isImportant"></i>
     <p-divider />
     <ng-container [ngTemplateOutlet]="cdk"></ng-container>
