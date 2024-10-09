@@ -1,6 +1,12 @@
-.container {
-  min-width: 60rem;
-  display: flex;
-  justify-content: center;
-  margin: auto;
+:host {
+  .container {
+    min-width: 60rem;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .logo {
+    height: 35px;
+  }
 }

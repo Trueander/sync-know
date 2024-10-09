@@ -1,5 +1,11 @@
 
-<p-menubar [model]="items" />
+<p-menubar [model]="items" >
+  <ng-template pTemplate="start">
+    <a routerLink="/admin/equipos" class="px-15">
+      <img class="logo" src="./assets/logo_sync.svg" alt="logo">
+    </a>
+  </ng-template>
+</p-menubar>
 <div class="py-25 container">
   <router-outlet></router-outlet>
 </div>
