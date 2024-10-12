@@ -1,9 +1,26 @@
 <div class="search-content d-flex flex-column">
-  <div>
-    <p-iconField iconPosition="left">
-      <p-inputIcon [styleClass]="(loadingSearch$ | async) ? 'pi pi-spin pi-spinner' : 'pi pi-search'" />
-      <input type="text" class="w-100 input-search" pInputText [formControl]="searchFC" placeholder="Buscar..." />
-    </p-iconField>
+  <div class="d-flex gap-20 justify-content-space-btw">
+    <div class="flex-grow-1">
+      <p-iconField iconPosition="left">
+        <p-inputIcon [styleClass]="(loadingSearch$ | async) ? 'pi pi-spin pi-spinner' : 'pi pi-search'" />
+        <input type="text" class="w-100 input-search" pInputText [formControl]="searchFC" placeholder="Buscar..." />
+      </p-iconField>
+    </div>
+    <p-dropdown [options]="(usersByTeam$ | async) || []" optionLabel="firstname" [filter]="true"
+                filterBy="firstname,lastname" [showClear]="true" (onChange)="onSelected($event.value)" placeholder="Buscar por usuario">
+      <ng-template pTemplate="selectedItem" let-selectedUser>
+        <ng-container [ngTemplateOutlet]="userTemplateDisplay" [ngTemplateOutletContext]="{user: selectedUser}"></ng-container>
+      </ng-template>
+      <ng-template let-user pTemplate="item">
+        <div class="d-flex align-items-center gap-10">
+          <i class="pi pi-user"></i>
+          <ng-container [ngTemplateOutlet]="userTemplateDisplay" [ngTemplateOutletContext]="{user: user}"></ng-container>
+        </div>
+      </ng-template>
+    </p-dropdown>
+    <ng-template #userTemplateDisplay let-user="user">
+      {{ user.firstname +' '+ user.lastname[0]+'.' }}
+    </ng-template>
   </div>
 
   <ng-container *ngIf="contentList && contentList.length">

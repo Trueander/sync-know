@@ -31,8 +31,8 @@ export class ContentService {
     return this.http.get<Content>(this.baseUrl+'/'+id);
   }
 
-  searchContent(criteria: string, page: number, pageSize: number): Observable<PageReponse<Content>> {
-    return this.http.get<PageReponse<Content>>(`${this.baseUrl}?criteria=${criteria}&page=${page}&size=${pageSize}`)
+  searchContent(criteria: string, userId: number | null, page: number, pageSize: number): Observable<PageReponse<Content>> {
+    return this.http.get<PageReponse<Content>>(`${this.baseUrl}?criteria=${criteria}&page=${page}&size=${pageSize}${userId ? '&userId='+userId : ''}`)
       .pipe(map((response: any) => new PageReponse<Content>(response.content, response.totalElements)));
   }
 

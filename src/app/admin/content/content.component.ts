@@ -67,7 +67,7 @@ export class ContentComponent implements OnInit {
       this.page = 0;
     }
 
-    this.contentService.searchContent(this.searchFormControl.value, this.page, this.pageSize)
+    this.contentService.searchContent(this.searchFormControl.value, null, this.page, this.pageSize)
       .pipe(
         tap(this.loadPagination)
       )

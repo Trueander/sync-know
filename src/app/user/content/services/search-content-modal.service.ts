@@ -15,7 +15,7 @@ export class SearchContentModalService  implements OnDestroy {
       showHeader: false,
       dismissableMask: true,
       width: '650px',
-      contentStyle: {overflow: 'auto', paddingTop: '28px', borderRadius: '6px'},
+      contentStyle: {paddingTop: '28px', borderRadius: '6px', overflow: 'inherit'},
       breakpoints: {
         '960px': '75vw',
         '640px': '90vw'

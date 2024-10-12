@@ -64,4 +64,8 @@ export class UserService {
   verifyFavoriteContentExist(contentId: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}/favorite-content/${contentId}/verify`);
   }
+
+  getUsersByTeam(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/by-team`);
+  }
 }

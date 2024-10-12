@@ -27,6 +27,8 @@ import {DividerModule} from "primeng/divider";
 import {CardModule} from "primeng/card";
 import {PaginatorModule} from "primeng/paginator";
 import {RecentSearchService} from "../../services/recent-search.service";
+import {User} from "../../../../admin/users/models/user.model";
+import {UserService} from "../../../../admin/users/services/user.service";
 
 @Component({
   selector: 'app-search-content',
@@ -60,13 +62,16 @@ export class SearchContentComponent implements OnInit, OnDestroy {
   recentSearches: Content[] = [];
   unsubscribe$: Subject<void> = new Subject<void>();
   loadingSearch$!: Observable<boolean>;
+  usersByTeam$!: Observable<User[]>;
+  userIdSelected: number | null = null;
 
   constructor(private config: DynamicDialogConfig,
               public dialogRef: DynamicDialogRef,
               private contentService: ContentService,
               private router: Router,
               private contentSyncService: ContentSyncService,
-              private recentSearchService: RecentSearchService) {
+              private recentSearchService: RecentSearchService,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -77,11 +82,23 @@ export class SearchContentComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         tap(this.setDefaultSearchIfEmpty),
         filter(text => text.length > 2),
+        tap(() => this.page = 0),
         switchMap(() => this.searchContent$())
       )
       .subscribe();
 
     this.loadRecentSearches();
+    this.usersByTeam$ = this.userService.getUsersByTeam();
+  }
+
+  onSelected(user: User): void {
+    this.userIdSelected = user ? user.id : null;
+    this.page = 0;
+    if(this.searchFC.value.length > 2 || this.userIdSelected) {
+      this.searchContent$().subscribe();
+    } else {
+      this.contentList = undefined;
+    }
   }
 
   private setDefaultSearchIfEmpty = (text: string): void => {
@@ -113,7 +130,7 @@ export class SearchContentComponent implements OnInit, OnDestroy {
   private searchContent$(): Observable<PageReponse<Content> | never[]> {
     this.loadingSearch$ = of(true);
     return this.contentService
-      .searchContent(this.searchFC.value, this.page, this.size)
+      .searchContent(this.searchFC.value, this.userIdSelected, this.page, this.size)
       .pipe(
         takeUntil(this.unsubscribe$),
         tap(this.onSearchSuccess),
