@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
-import {environment} from "../../../../environment/environment";
+import {environment} from "../../../../environments/environment";
 import {Team} from "../models/team.model";
 import {PageReponse} from "../../../shared/models/page-reponse";
 

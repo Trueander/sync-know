@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
-import {environment} from "../../../../environment/environment";
+import {environment} from "../../../../environments/environment";
 import {User} from "../models/user.model";
 import {LoginDTO} from "../models/login";
 import {PageReponse} from "../../../shared/models/page-reponse";

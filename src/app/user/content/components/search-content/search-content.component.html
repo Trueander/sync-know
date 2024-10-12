@@ -6,7 +6,7 @@
         <input type="text" class="w-100 input-search" pInputText [formControl]="searchFC" placeholder="Buscar..." />
       </p-iconField>
     </div>
-    <p-dropdown [options]="(usersByTeam$ | async) || []" optionLabel="firstname" [filter]="true"
+    <p-dropdown [options]="(usersByTeam$ | async) || []" optionLabel="firstname" [filter]="true" emptyMessage="No hay resultados"
                 filterBy="firstname,lastname" [showClear]="true" (onChange)="onSelected($event.value)" placeholder="Buscar por usuario">
       <ng-template pTemplate="selectedItem" let-selectedUser>
         <ng-container [ngTemplateOutlet]="userTemplateDisplay" [ngTemplateOutletContext]="{user: selectedUser}"></ng-container>

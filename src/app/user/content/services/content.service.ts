@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {ContentTree} from "../models/content-tree";
 import {ContentRequest} from "../models/content-request";
-import {environment} from "../../../../environment/environment";
+import {environment} from "../../../../environments/environment";
 import {Content} from "../models/content";
 import {PageReponse} from "../../../shared/models/page-reponse";
 
