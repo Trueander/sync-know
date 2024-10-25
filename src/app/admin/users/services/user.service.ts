@@ -50,7 +50,7 @@ export class UserService {
   }
 
   getContentCreatedByUser(userId: number | null): Observable<Content[]> {
-    return this.http.get<Content[]>(`${this.baseUrl}/content?userId=${userId}`);
+    return this.http.get<Content[]>(`${this.baseUrl}/content?userID=${userId}`);
   }
 
   addFavoriteContent(contentId: number): Observable<void> {
