@@ -15,7 +15,7 @@ import {PreContentModalService} from "../../services/pre-content-modal.service";
 import {DialogService} from "primeng/dynamicdialog";
 import {UserService} from "../../../../admin/users/services/user.service";
 import {TooltipModule} from "primeng/tooltip";
-import {errorAlert, successAlert} from "../../../../shared/utils/alert-messages.utils";
+import {errorAlert, successAlert, warningAlert} from "../../../../shared/utils/alert-messages.utils";
 import {CkeditorComponent} from "../../../../shared/components/ckeditor/ckeditor.component";
 
 registerLocaleData(localeEs, 'es');
@@ -88,7 +88,10 @@ export class ContentFormComponent implements OnInit{
     if(this.form.valid) {
       this.contentService.updateContent(this.resourceId, this.form.value)
         .pipe(
-          switchMap(() => this.router.navigate(['contenido', this.resourceId])),
+          switchMap(() => {
+            successAlert('Contenido actualizado');
+            return this.router.navigate(['contenido', this.resourceId]);
+          }),
           tap(() => this.syncContentService.sync()),
           switchMap(() => this.contentService.get(this.resourceId)),
           tap(this.preloadData)
@@ -96,6 +99,7 @@ export class ContentFormComponent implements OnInit{
         .subscribe();
     } else {
       this.form.markAllAsTouched();
+      warningAlert('Verifique los campos');
     }
   }
 

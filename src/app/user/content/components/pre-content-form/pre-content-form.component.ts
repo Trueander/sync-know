@@ -18,6 +18,7 @@ import {Template} from "../../../../admin/templates/models/template";
 import {CardModule} from "primeng/card";
 import {DividerModule} from "primeng/divider";
 import {CkeditorComponent} from "../../../../shared/components/ckeditor/ckeditor.component";
+import {successAlert, warningAlert} from "../../../../shared/utils/alert-messages.utils";
 
 @Component({
   selector: 'app-pre-content-form',
@@ -89,13 +90,17 @@ export class PreContentFormComponent implements OnInit{
     if(this.contentForm.valid) {
       this.contentService.saveContent(this.contentForm.value)
         .pipe(
-          switchMap(id =>  this.router.navigate(['contenido', id], { queryParams: { edit: true } })),
+          switchMap(id =>  {
+            successAlert('Contenido creado')
+            return this.router.navigate(['contenido', id], { queryParams: { edit: true } });
+          }),
           tap(() => this.syncContentService.sync()),
           tap(() => this.dialogRef.close())
         )
         .subscribe();
     } else {
       this.contentForm.markAllAsTouched();
+      warningAlert('Verifique los campos');
     }
   }
 
